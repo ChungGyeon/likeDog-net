@@ -26,7 +26,7 @@ CRUD의 대표적이라면 게시판에 글쓰기,수정,삭제가 대표적
 
 # 파일구조 
 ```text
-community
+likeDog
 │
 ├── admin                    # 관리자 시스템
 │   │
