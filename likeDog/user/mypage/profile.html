@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net | My Profile</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+</head>
+<body>
+<header></header>
+
+<main class="container">
+    <!-- Top Bar -->
+    <div class="mypage-top-header mt-20" style="border-radius: 20px 20px 0 0;">
+        <div class="user-info">
+            <div class="avatar-circle"></div>
+            <div>
+                <div style="font-size: 0.8rem; color: #666;">닉네임</div>
+                <div id="top-username" style="font-weight: bold; font-size: 1.2rem;">Username</div>
+            </div>
+        </div>
+        <div class="zenless-close-btn" style="position: static;" onclick="location.href='../home/index.html'">×</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mypage-container" style="margin-top: 0; border-radius: 0 0 30px 30px; border-top: none;">
+        <!-- Left Menu -->
+        <div class="mypage-left">
+            <div class="mypage-profile-img-box" id="profile-img-display"></div>
+            <div class="mypage-menu">
+                <button class="mypage-menu-btn" onclick="handleEditProfile()">정보 수정</button>
+                <button class="mypage-menu-btn">알림 설정</button>
+                <button class="mypage-menu-btn">계정 설정</button>
+                <button class="mypage-menu-btn danger">회원탈퇴</button>
+            </div>
+        </div>
+
+        <!-- Right Activity -->
+        <div class="mypage-right">
+            <!-- My Posts Section -->
+            <div class="mypage-section">
+                <div class="mypage-section-header">
+                    <h2>내 게시글</h2>
+                    <a href="posts.html" class="mypage-view-all">전체보기</a>
+                </div>
+                <div id="my-posts-list" class="mypage-list">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+
+            <!-- My Comments Section -->
+            <div class="mypage-section" style="border-left: 1px solid #222; padding-left: 30px;">
+                <div class="mypage-section-header">
+                    <h2>내 댓글</h2>
+                    <a href="comments.html" class="mypage-view-all">전체보기</a>
+                </div>
+                <div id="my-comments-list" class="mypage-list">
+                    <!-- Comments will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="../../common/js/main.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!Auth.isLoggedIn()) {
+            alert('로그인이 필요합니다.');
+            location.href = '../auth/login.html';
+            return;
+        }
+
+        const user = Auth.getCurrentUser();
+        document.getElementById('top-username').textContent = user.name;
+
+        // Set profile image if exists (placeholder for now)
+        document.getElementById('profile-img-display').style.backgroundImage = "url('https://via.placeholder.com/220x280/1a1a1a/eaff00?text=PROFILE')";
+
+        // Load My Posts
+        const posts = JSON.parse(localStorage.getItem('posts')) || [];
+        const myPosts = posts.filter(p => p.author === user.username).slice(0, 5);
+        const postsList = document.getElementById('my-posts-list');
+
+        postsList.innerHTML = myPosts.map(p => `
+                <div class="mypage-list-item" onclick="location.href='../posts/post.html?id=${p.id}'" style="cursor: pointer;">
+                    <span class="title">${p.title}</span>
+                    <div class="meta">${p.date} | 조회 ${p.views}</div>
+                </div>
+            `).join('') || '<p style="color: #444; padding: 20px;">작성한 게시글이 없습니다.</p>';
+
+        // Load My Comments
+        const comments = JSON.parse(localStorage.getItem('comments')) || [];
+        const myComments = comments.filter(c => c.author === user.username).slice(0, 5);
+        const commentsList = document.getElementById('my-comments-list');
+
+        commentsList.innerHTML = myComments.map(c => {
+            const targetPost = posts.find(p => p.id === c.postId);
+            return `
+                    <div class="mypage-list-item" onclick="location.href='../posts/post.html?id=${c.postId}'" style="cursor: pointer;">
+                        <span class="meta" style="color: #888;">[${targetPost ? targetPost.title : '삭제된 게시글'}]</span>
+                        <span class="title" style="font-size: 0.9rem; margin-top: 5px;">${c.content}</span>
+                        <div class="meta">${c.date}</div>
+                    </div>
+                `;
+        }).join('') || '<p style="color: #444; padding: 20px;">작성한 댓글이 없습니다.</p>';
+
+        window.handleEditProfile = () => {
+            const newName = prompt('변경할 닉네임을 입력하세요:', user.name);
+            if (newName && newName !== user.name) {
+                const users = JSON.parse(localStorage.getItem('users'));
+                const userIdx = users.findIndex(u => u.username === user.username);
+                users[userIdx].name = newName;
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.setItem('currentUser', JSON.stringify(users[userIdx]));
+                location.reload();
+            }
+        };
+    });
+</script>
+</body>
+</html>
