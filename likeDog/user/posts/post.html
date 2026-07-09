@@ -3,31 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>likeDog-Net | Post</title>
+    <title>likeDog-Net | Post Detail</title>
     <link rel="stylesheet" href="../../common/css/style.css">
 </head>
 <body>
 <header></header>
 
 <main class="container">
-    <div id="post-container">
-        <!-- Post content will be loaded here -->
+    <div class="zenless-post-container">
+        <div class="zenless-close-btn" onclick="location.href='../boards/list.html'">×</div>
+
+        <!-- Left Side: Image -->
+        <div class="zenless-post-left">
+            <div class="zenless-post-top-bar">
+                <div class="user-badge">
+                    <div class="author-img" style="width: 30px; height: 30px;"></div>
+                    <span id="post-author-name">Loading...</span>
+                </div>
+                <div class="heart-count">❤️ <span id="post-likes">0</span></div>
+            </div>
+            <div id="post-image-box" class="zenless-post-img-box"></div>
+        </div>
+
+        <!-- Right Side: Content & Comments -->
+        <div class="zenless-post-right">
+            <div class="zenless-post-header">
+                <h1 id="post-title" class="zenless-post-title">Loading...</h1>
+            </div>
+
+            <div id="post-content" class="zenless-post-body">
+                Loading content...
+            </div>
+
+            <div class="zenless-comment-area">
+                <div class="flex justify-between align-center mb-20">
+                    <h3>의견 수렴</h3>
+                    <span id="comment-count" style="color: #666;">0 comments</span>
+                </div>
+
+                <div id="comment-list" class="zenless-comment-list">
+                    <!-- Comments will be loaded here -->
+                </div>
+
+                <div class="comment-form mt-20">
+                    <textarea id="comment-input" placeholder="댓글을 입력하세요..." style="width: 100%; height: 80px; padding: 15px; background: #000; border: 1px solid #333; border-radius: 10px; color: #fff;"></textarea>
+                    <button id="submit-comment" class="btn-primary" style="width: auto; padding: 10px 30px; float: right; margin-top: 10px;">등록</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="comment-section">
-        <h3>댓글</h3>
-        <div class="comment-form mt-20">
-            <textarea id="comment-input" placeholder="댓글을 입력하세요..." style="width: 100%; height: 100px; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; color: #fff;"></textarea>
-            <button id="submit-comment" class="btn-primary" style="width: auto; padding: 10px 30px; float: right; margin-top: 10px;">등록</button>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="comment-list mt-20" id="comment-list">
-            <!-- Comments will be loaded here -->
-        </div>
+    <!-- Admin/Author Actions -->
+    <div id="post-admin-actions" class="mt-20 flex gap-10">
+        <!-- Buttons will be injected here -->
     </div>
 </main>
 
-<script src="../../common/js/main.js"></script>
+<script src="../../common/js/script.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -41,55 +73,43 @@
             return;
         }
 
-        // Increase views
-        post.views++;
-        localStorage.setItem('posts', JSON.stringify(posts));
+        // UI Data Injection
+        document.getElementById('post-title').textContent = post.title;
+        document.getElementById('post-content').textContent = post.content;
+        document.getElementById('post-author-name').textContent = post.author;
+        document.getElementById('post-likes').textContent = post.likes;
+        if (post.image) {
+            document.getElementById('post-image-box').style.backgroundImage = `url('${post.image}')`;
+        }
 
-        const container = document.getElementById('post-container');
         const currentUser = Auth.getCurrentUser();
         const isAuthor = currentUser && currentUser.username === post.author;
         const isAdmin = Auth.isAdmin();
 
-        container.innerHTML = `
-                <div class="post-detail">
-                    <div class="post-header">
-                        <span class="text-accent">\${post.category}</span>
-                        <h1 class="post-title">\${post.title}</h1>
-                        <div class="post-meta">
-                            <div class="card-author">
-                                <div class="author-img"></div>
-                                <span>\${post.author} (Lv.\${post.authorLevel})</span>
-                            </div>
-                            <span>\${post.date} | 👁️ \${post.views} | ❤️ \${post.likes}</span>
-                        </div>
-                    </div>
-                    \${post.image ? \`<img src="\${post.image}" style="width: 100%; border-radius: 15px; margin-bottom: 30px;">\` : ''}
-                    <div class="post-content">\${post.content}</div>
-                    <div class="post-actions">
-                        <button class="btn-sm btn-secondary" onclick="handleLike()">❤️ 좋아요</button>
-                        <button class="btn-sm btn-secondary" onclick="handleReport()">⚠️ 신고</button>
-                        \${(isAuthor || isAdmin) ? \`
-                            <button class="btn-sm btn-edit" onclick="location.href='edit.html?id=\${post.id}'">수정</button>
-                            <button class="btn-sm btn-del" onclick="handleDelete()">삭제</button>
-                        \` : ''}
-                    </div>
-                </div>
-            `;
+        if (isAuthor || isAdmin) {
+            document.getElementById('post-admin-actions').innerHTML = `
+                    <button class="btn-sm btn-edit" onclick="location.href='edit.html?id=${post.id}'">게시글 수정</button>
+                    <button class="btn-sm btn-del" onclick="handleDelete()">게시글 삭제</button>
+                `;
+        }
 
         // Comments Logic
         function renderComments() {
             const comments = JSON.parse(localStorage.getItem('comments')) || [];
             const postComments = comments.filter(c => c.postId === postId);
             const list = document.getElementById('comment-list');
-            list.innerHTML = postComments.map(c => `
-                    <div class="comment-item">
-                        <div class="comment-author">
-                            <span>\${c.author}</span>
-                            <span style="font-size: 0.8rem; color: #666;">\${c.date}</span>
+            document.getElementById('comment-count').textContent = `${postComments.length} comments`;
+
+            list.innerHTML = postComments.map((c, index) => `
+                    <div class="zenless-comment-item ${index === 0 ? 'highlight' : ''}">
+                        <div class="comment-avatar"></div>
+                        <div class="comment-info">
+                            <div class="author">${c.author}</div>
+                            <div class="text">${c.content}</div>
                         </div>
-                        <div>\${c.content}</div>
+                        <div class="comment-floor">${index + 1}F</div>
                     </div>
-                `).join('') || '<p style="color: #666;">첫 댓글을 남겨보세요.</p>';
+                `).join('') || '<p style="color: #666; padding: 20px; text-align: center;">아직 댓글이 없습니다.</p>';
         }
 
         renderComments();
@@ -114,28 +134,6 @@
             document.getElementById('comment-input').value = '';
             renderComments();
         });
-
-        window.handleLike = () => {
-            post.likes++;
-            localStorage.setItem('posts', JSON.stringify(posts));
-            location.reload();
-        };
-
-        window.handleReport = () => {
-            const reason = prompt('신고 사유를 입력하세요:');
-            if (!reason) return;
-            const reports = JSON.parse(localStorage.getItem('reports')) || [];
-            reports.push({
-                id: Date.now(),
-                postId: postId,
-                postTitle: post.title,
-                reason: reason,
-                reporter: currentUser ? currentUser.username : 'anonymous',
-                status: 'pending'
-            });
-            localStorage.setItem('reports', JSON.stringify(reports));
-            alert('신고가 접수되었습니다.');
-        };
 
         window.handleDelete = () => {
             if (confirm('정말 삭제하시겠습니까?')) {
