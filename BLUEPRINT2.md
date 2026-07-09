@@ -80,3 +80,8 @@ likeDog
 ├── js
 └──images
 ```
+
+
+# 구현 시 주의사항
+1. 공용으로 사용되는 style.css, script.js를 우선 확인 후, 작업을 수행한다.
+2. 각 html에 대응하는 css,js는 common 디렉토리의 css,js에 각기 구현한다.
