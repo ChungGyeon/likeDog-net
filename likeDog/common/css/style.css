@@ -80,6 +80,9 @@ header {
     border-radius: 50%;
     background-color: #333;
     border: 2px solid var(--accent-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .user-info .name {
@@ -223,6 +226,9 @@ nav ul li a:hover:not(.active) {
     height: 24px;
     border-radius: 50%;
     background-color: #444;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Forms */
@@ -661,6 +667,9 @@ nav ul li a:hover:not(.active) {
     background: #333;
     border-radius: 50%;
     flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .comment-info {
@@ -877,4 +886,7 @@ nav ul li a:hover:not(.active) {
     background: #333;
     border-radius: 50%;
     border: 2px solid var(--accent-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }

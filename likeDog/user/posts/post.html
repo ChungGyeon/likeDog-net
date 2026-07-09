@@ -73,6 +73,13 @@
             return;
         }
 
+        // Find author to get profile image
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const author = users.find(u => u.username === post.author);
+        if (author && author.profileImage) {
+            document.querySelector('.author-img').style.backgroundImage = `url('${author.profileImage}')`;
+        }
+
         // UI Data Injection
         document.getElementById('post-title').textContent = post.title;
         document.getElementById('post-content').textContent = post.content;
@@ -100,16 +107,20 @@
             const list = document.getElementById('comment-list');
             document.getElementById('comment-count').textContent = `${postComments.length} comments`;
 
-            list.innerHTML = postComments.map((c, index) => `
+            list.innerHTML = postComments.map((c, index) => {
+                const commentAuthor = users.find(u => u.username === c.author);
+                const commentAuthorImgStyle = commentAuthor && commentAuthor.profileImage ? `style="background-image: url('${commentAuthor.profileImage}')"` : '';
+                return `
                     <div class="zenless-comment-item ${index === 0 ? 'highlight' : ''}">
-                        <div class="comment-avatar"></div>
+                        <div class="comment-avatar" ${commentAuthorImgStyle}></div>
                         <div class="comment-info">
                             <div class="author">${c.author}</div>
                             <div class="text">${c.content}</div>
                         </div>
                         <div class="comment-floor">${index + 1}F</div>
                     </div>
-                `).join('') || '<p style="color: #666; padding: 20px; text-align: center;">아직 댓글이 없습니다.</p>';
+                `
+            }).join('') || '<p style="color: #666; padding: 20px; text-align: center;">아직 댓글이 없습니다.</p>';
         }
 
         renderComments();

@@ -26,7 +26,8 @@
     <div class="mypage-container" style="margin-top: 0; border-radius: 0 0 30px 30px; border-top: none;">
         <!-- Left Menu -->
         <div class="mypage-left">
-            <div class="mypage-profile-img-box" id="profile-img-display"></div>
+            <div class="mypage-profile-img-box" id="profile-img-display" title="클릭하여 프로필 사진 변경"></div>
+            <input type="file" id="profile-image-input" accept="image/*" style="display: none;">
             <div class="mypage-menu">
                 <button class="mypage-menu-btn" onclick="handleEditProfile()">정보 수정</button>
                 <button class="mypage-menu-btn">알림 설정</button>
@@ -74,8 +75,65 @@
         const user = Auth.getCurrentUser();
         document.getElementById('top-username').textContent = user.name;
 
-        // Set profile image if exists (placeholder for now)
-        document.getElementById('profile-img-display').style.backgroundImage = "url('https://via.placeholder.com/220x280/1a1a1a/eaff00?text=PROFILE')";
+        const profileImgBox = document.getElementById('profile-img-display');
+        const profileImgInput = document.getElementById('profile-image-input');
+        const avatarCircle = document.querySelector('.avatar-circle');
+
+        // Set initial profile image
+        if (user.profileImage) {
+            profileImgBox.style.backgroundImage = `url('${user.profileImage}')`;
+            if (avatarCircle) avatarCircle.style.backgroundImage = `url('${user.profileImage}')`;
+        } else {
+            profileImgBox.style.backgroundImage = "url('https://via.placeholder.com/220x280/1a1a1a/eaff00?text=PROFILE')";
+        }
+
+        // Image upload logic
+        profileImgBox.addEventListener('click', () => profileImgInput.click());
+        profileImgInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imageUrl = e.target.result;
+                
+                // Update UI first
+                profileImgBox.style.backgroundImage = `url('${imageUrl}')`;
+                if (avatarCircle) avatarCircle.style.backgroundImage = `url('${imageUrl}')`;
+
+                try {
+                    // Update localStorage
+                    const currentUser = Auth.getCurrentUser();
+                    currentUser.profileImage = imageUrl;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                    const allUsers = JSON.parse(localStorage.getItem('users'));
+                    const userIndex = allUsers.findIndex(u => u.id === currentUser.id);
+                    if (userIndex !== -1) {
+                        allUsers[userIndex].profileImage = imageUrl;
+                        localStorage.setItem('users', JSON.stringify(allUsers));
+                    }
+                    
+                    user.profileImage = imageUrl;
+
+                    renderHeader();
+                    alert('프로필 사진이 성공적으로 저장되었습니다.');
+
+                } catch (error) {
+                    console.error("Error saving profile image to localStorage:", error);
+                    alert('프로필 사진을 저장하는 데 실패했습니다. 이미지 파일 크기가 너무 크거나 브라우저 저장 공간이 부족할 수 있습니다.');
+                    // Revert the UI change if saving fails
+                    if (user.profileImage) {
+                        profileImgBox.style.backgroundImage = `url('${user.profileImage}')`;
+                        if (avatarCircle) avatarCircle.style.backgroundImage = `url('${user.profileImage}')`;
+                    } else {
+                        profileImgBox.style.backgroundImage = "url('https://via.placeholder.com/220x280/1a1a1a/eaff00?text=PROFILE')";
+                    }
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+
 
         // Load My Posts
         const posts = JSON.parse(localStorage.getItem('posts')) || [];
@@ -107,12 +165,24 @@
 
         window.handleEditProfile = () => {
             const newName = prompt('변경할 닉네임을 입력하세요:', user.name);
-            if (newName && newName !== user.name) {
+            if (newName && newName.trim() && newName !== user.name) {
+                // 1. Update the 'users' array (for all other parts of the app)
                 const users = JSON.parse(localStorage.getItem('users'));
                 const userIdx = users.findIndex(u => u.username === user.username);
-                users[userIdx].name = newName;
-                localStorage.setItem('users', JSON.stringify(users));
-                localStorage.setItem('currentUser', JSON.stringify(users[userIdx]));
+                if (userIdx !== -1) {
+                    users[userIdx].name = newName;
+                    localStorage.setItem('users', JSON.stringify(users));
+                }
+
+                // 2. Update the 'currentUser' object directly to preserve all its properties
+                const currentUser = Auth.getCurrentUser();
+                currentUser.name = newName;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // 3. Update the 'user' object in the script's scope
+                user.name = newName;
+
+                alert('닉네임이 변경되었습니다.');
                 location.reload();
             }
         };

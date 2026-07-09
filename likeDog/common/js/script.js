@@ -79,13 +79,14 @@ function renderHeader() {
 
     let userHtml = '';
     if (user) {
+        const profileImgStyle = user.profileImage ? `style="background-image: url('${user.profileImage}')"` : '';
         userHtml = `
             <div class="user-status">
                 <div class="user-info">
                     <div class="name">${user.name}</div>
                     <div class="level">Lv.${user.level}</div>
                 </div>
-                <a href="/likeDog/user/mypage/profile.html"><div class="profile-img"></div></a>
+                <a href="/likeDog/user/mypage/profile.html"><div class="profile-img" ${profileImgStyle}></div></a>
                 <button onclick="Auth.logout()" class="btn-sm btn-secondary">로그아웃</button>
             </div>
         `;
@@ -113,6 +114,10 @@ function renderHeader() {
 
 // Post Renderer
 function createPostCard(post) {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const author = users.find(u => u.username === post.author);
+    const authorImgStyle = author && author.profileImage ? `style="background-image: url('${author.profileImage}')"` : '';
+
     return `
         <div class="card" onclick="location.href='/likeDog/user/posts/post.html?id=${post.id}'">
             <div class="card-image-wrapper">
@@ -125,7 +130,7 @@ function createPostCard(post) {
                 <p class="card-desc">${post.content}</p>
                 <div class="card-footer">
                     <div class="card-author">
-                        <div class="author-img"></div>
+                        <div class="author-img" ${authorImgStyle}></div>
                         <span>${post.author}</span>
                     </div>
                     <span>❤️ ${post.likes}</span>
