@@ -113,26 +113,89 @@ function renderHeader() {
 
 // Post Renderer
 function createPostCard(post) {
-    return \`
-        <div class="card" onclick="location.href='/likeDog/user/posts/post.html?id=\${post.id}'">
+    return `
+        <div class="card" onclick="location.href='/likeDog/user/posts/post.html?id=${post.id}'">
             <div class="card-image-wrapper">
-                <img src="\${post.image || 'https://via.placeholder.com/400x300'}" class="card-image" alt="post">
-                <div class="card-views">👁️ \${post.views}</div>
+                <img src="${post.image || 'https://via.placeholder.com/400x300'}" class="card-image" alt="post">
+                <div class="card-views">👁️ ${post.views}</div>
             </div>
             <div class="card-content">
-                <span class="card-tag">\${post.category}</span>
-                <h3 class="card-title">\${post.title}</h3>
-                <p class="card-desc">\${post.content}</p>
+                <span class="card-tag">${post.category}</span>
+                <h3 class="card-title">${post.title}</h3>
+                <p class="card-desc">${post.content}</p>
                 <div class="card-footer">
                     <div class="card-author">
                         <div class="author-img"></div>
-                        <span>\${post.author}</span>
+                        <span>${post.author}</span>
                     </div>
-                    <span>❤️ \${post.likes}</span>
+                    <span>❤️ ${post.likes}</span>
                 </div>
             </div>
         </div>
-    \`;
+    `;
+}
+
+function renderBoard() {
+    const grid = document.getElementById('post-grid');
+    const filter = document.getElementById('category-filter');
+    const writeBtn = document.getElementById('write-btn');
+
+    if (!grid) return;
+
+    function getPosts() {
+        return JSON.parse(localStorage.getItem('posts')) || [];
+    }
+
+    function renderPosts(filteredPosts) {
+        if (filteredPosts.length === 0) {
+            grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 50px; color: #666;">게시글이 없습니다.</p>';
+            return;
+        }
+        grid.innerHTML = filteredPosts.map(post => createPostCard(post)).join('');
+    }
+
+    renderPosts(getPosts());
+
+    if (filter) {
+        filter.addEventListener('change', (e) => {
+            const cat = e.target.value;
+            const posts = getPosts();
+            const filtered = cat === 'all' ? posts : posts.filter(p => p.category === cat);
+            renderPosts(filtered);
+        });
+    }
+
+    if (writeBtn) {
+        writeBtn.addEventListener('click', () => {
+            if (!Auth.isLoggedIn()) {
+                alert('로그인이 필요합니다.');
+                location.href = '../auth/login.html';
+            } else {
+                const title = prompt('제목을 입력하세요:');
+                if (!title) return;
+                const content = prompt('내용을 입력하세요:');
+                if (!content) return;
+
+                const posts = getPosts();
+                const newPost = {
+                    id: Date.now(),
+                    title: title,
+                    content: content,
+                    author: Auth.getCurrentUser().username,
+                    authorLevel: Auth.getCurrentUser().level,
+                    views: 0,
+                    likes: 0,
+                    date: new Date().toISOString().split('T')[0],
+                    category: '잡담',
+                    image: `https://picsum.photos/seed/${Date.now()}/400/300`
+                };
+
+                posts.unshift(newPost);
+                localStorage.setItem('posts', JSON.stringify(posts));
+                renderPosts(posts);
+            }
+        });
+    }
 }
 
 // Global scope expose for event handlers
@@ -142,4 +205,9 @@ window.createPostCard = createPostCard;
 // On Load
 document.addEventListener('DOMContentLoaded', () => {
     renderHeader();
+
+    // Render board if on the board page
+    if (document.getElementById('post-grid')) {
+        renderBoard();
+    }
 });
