@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net | My Posts</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+</head>
+<body class="body-with-bg">
+<header></header>
+
+<main class="container">
+    <div class="flex justify-between align-center mb-20">
+        <h1>내가 쓴 글</h1>
+    </div>
+
+    <div class="card-grid" id="post-grid">
+        <!-- User's posts will be loaded here -->
+    </div>
+</main>
+
+<script src="../../common/js/script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentUser = Auth.getCurrentUser();
+        if (!currentUser) {
+            alert('로그인이 필요합니다.');
+            location.href = '../auth/login.html';
+            return;
+        }
+
+        const grid = document.getElementById('post-grid');
+        const allPosts = JSON.parse(localStorage.getItem('posts')) || [];
+        const userPosts = allPosts.filter(post => post.author === currentUser.username);
+
+        if (userPosts.length === 0) {
+            grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 50px; color: #666;">작성한 게시글이 없습니다.</p>';
+            return;
+        }
+
+        grid.innerHTML = userPosts.map(post => createPostCard(post)).join('');
+    });
+</script>
+</body>
+</html>
