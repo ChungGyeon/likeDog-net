@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net | Post Editor</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+</head>
+<body>
+<header></header>
+
+<main class="container">
+    <div class="form-container" style="max-width: 800px; margin-top: 40px;">
+        <h2 id="form-main-title">게시글 작성</h2>
+        <form id="edit-form">
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" id="edit-title" placeholder="제목을 입력하세요" required>
+            </div>
+
+            <div class="flex gap-10">
+                <div class="form-group" style="flex: 1;">
+                    <label>카테고리</label>
+                    <select id="edit-category">
+                        <option value="잡담">잡담</option>
+                        <option value="법률">법률</option>
+                        <option value="의뢰">의뢰</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex: 2;">
+                    <label>이미지 URL (선택)</label>
+                    <input type="text" id="edit-image-url" placeholder="https://example.com/image.jpg">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>내용</label>
+                <textarea id="edit-content" style="height: 350px;" placeholder="내용을 입력하세요" required></textarea>
+            </div>
+
+            <div class="flex gap-10 mt-20">
+                <button type="submit" id="submit-btn" class="btn-primary">등록하기</button>
+                <button type="button" onclick="history.back()" class="btn-secondary">취소</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script src="../../common/js/script.js"></script>
+<script src="../../common/js/userPostLogic.js"></script>
+</body>
+</html>

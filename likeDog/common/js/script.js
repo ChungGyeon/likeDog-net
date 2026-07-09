@@ -171,28 +171,7 @@ function renderBoard() {
                 alert('로그인이 필요합니다.');
                 location.href = '../auth/login.html';
             } else {
-                const title = prompt('제목을 입력하세요:');
-                if (!title) return;
-                const content = prompt('내용을 입력하세요:');
-                if (!content) return;
-
-                const posts = getPosts();
-                const newPost = {
-                    id: Date.now(),
-                    title: title,
-                    content: content,
-                    author: Auth.getCurrentUser().username,
-                    authorLevel: Auth.getCurrentUser().level,
-                    views: 0,
-                    likes: 0,
-                    date: new Date().toISOString().split('T')[0],
-                    category: '잡담',
-                    image: `https://picsum.photos/seed/${Date.now()}/400/300`
-                };
-
-                posts.unshift(newPost);
-                localStorage.setItem('posts', JSON.stringify(posts));
-                renderPosts(posts);
+                location.href = '../posts/edit.html';
             }
         });
     }
