@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/convertManagement/index.html">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/convertManagement/index.html" />
+              <option name="originalContent" value="&lt;!DOCTYPE html&gt;&#10;&lt;html lang=&quot;en&quot;&gt;&#10;&lt;head&gt;&#10;    &lt;meta charset=&quot;UTF-8&quot;&gt;&#10;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;&#10;    &lt;title&gt;Convert Management&lt;/title&gt;&#10;    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;&#10;&lt;/head&gt;&#10;&lt;body&gt;&#10;    &lt;h1&gt;Convert Management&lt;/h1&gt;&#10;    &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;&#10;&lt;/body&gt;&#10;&lt;/html&gt;" />
+              <option name="updatedContent" value="&lt;!DOCTYPE html&gt;&#10;&lt;html lang=&quot;en&quot;&gt;&#10;&lt;head&gt;&#10;    &lt;meta charset=&quot;UTF-8&quot;&gt;&#10;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;&#10;    &lt;title&gt;Convert Management&lt;/title&gt;&#10;    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;&#10;&lt;/head&gt;&#10;&lt;body&gt;&#10;    &lt;h1&gt;Convert Management&lt;/h1&gt;&#10;    &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;&#10;&lt;/body&gt;&#10;&lt;/html&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/userManagement/index.html">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/userManagement/index.html" />
+              <option name="updatedContent" value="&lt;!DOCTYPE html&gt;&#10;&lt;html lang=&quot;en&quot;&gt;&#10;&lt;head&gt;&#10;    &lt;meta charset=&quot;UTF-8&quot;&gt;&#10;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;&#10;    &lt;title&gt;User Management&lt;/title&gt;&#10;    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;&#10;&lt;/head&gt;&#10;&lt;body&gt;&#10;    &lt;h1&gt;User Management&lt;/h1&gt;&#10;    &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;&#10;&lt;/body&gt;&#10;&lt;/html&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/userManagement/script.js">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/userManagement/script.js" />
+              <option name="originalContent" value="// User Management Scripts&#10;console.log('User Management Loaded');" />
+              <option name="updatedContent" value="// User Management Scripts&#10;console.log('User Management Loaded');" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/userManagement/style.css">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/userManagement/style.css" />
+              <option name="originalContent" value="/* User Management Styles */&#10;body {&#10;    font-family: Arial, sans-serif;&#10;}" />
+              <option name="updatedContent" value="/* User Management Styles */&#10;body {&#10;    font-family: Arial, sans-serif;&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
