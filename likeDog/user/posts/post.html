@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net | Post</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+</head>
+<body>
+<header></header>
+
+<main class="container">
+    <div id="post-container">
+        <!-- Post content will be loaded here -->
+    </div>
+
+    <div class="comment-section">
+        <h3>댓글</h3>
+        <div class="comment-form mt-20">
+            <textarea id="comment-input" placeholder="댓글을 입력하세요..." style="width: 100%; height: 100px; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; color: #fff;"></textarea>
+            <button id="submit-comment" class="btn-primary" style="width: auto; padding: 10px 30px; float: right; margin-top: 10px;">등록</button>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="comment-list mt-20" id="comment-list">
+            <!-- Comments will be loaded here -->
+        </div>
+    </div>
+</main>
+
+<script src="../../common/js/main.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = parseInt(urlParams.get('id'));
+        const posts = JSON.parse(localStorage.getItem('posts')) || [];
+        const post = posts.find(p => p.id === postId);
+
+        if (!post) {
+            alert('존재하지 않는 게시글입니다.');
+            location.href = '../boards/list.html';
+            return;
+        }
+
+        // Increase views
+        post.views++;
+        localStorage.setItem('posts', JSON.stringify(posts));
+
+        const container = document.getElementById('post-container');
+        const currentUser = Auth.getCurrentUser();
+        const isAuthor = currentUser && currentUser.username === post.author;
+        const isAdmin = Auth.isAdmin();
+
+        container.innerHTML = `
+                <div class="post-detail">
+                    <div class="post-header">
+                        <span class="text-accent">\${post.category}</span>
+                        <h1 class="post-title">\${post.title}</h1>
+                        <div class="post-meta">
+                            <div class="card-author">
+                                <div class="author-img"></div>
+                                <span>\${post.author} (Lv.\${post.authorLevel})</span>
+                            </div>
+                            <span>\${post.date} | 👁️ \${post.views} | ❤️ \${post.likes}</span>
+                        </div>
+                    </div>
+                    \${post.image ? \`<img src="\${post.image}" style="width: 100%; border-radius: 15px; margin-bottom: 30px;">\` : ''}
+                    <div class="post-content">\${post.content}</div>
+                    <div class="post-actions">
+                        <button class="btn-sm btn-secondary" onclick="handleLike()">❤️ 좋아요</button>
+                        <button class="btn-sm btn-secondary" onclick="handleReport()">⚠️ 신고</button>
+                        \${(isAuthor || isAdmin) ? \`
+                            <button class="btn-sm btn-edit" onclick="location.href='edit.html?id=\${post.id}'">수정</button>
+                            <button class="btn-sm btn-del" onclick="handleDelete()">삭제</button>
+                        \` : ''}
+                    </div>
+                </div>
+            `;
+
+        // Comments Logic
+        function renderComments() {
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            const postComments = comments.filter(c => c.postId === postId);
+            const list = document.getElementById('comment-list');
+            list.innerHTML = postComments.map(c => `
+                    <div class="comment-item">
+                        <div class="comment-author">
+                            <span>\${c.author}</span>
+                            <span style="font-size: 0.8rem; color: #666;">\${c.date}</span>
+                        </div>
+                        <div>\${c.content}</div>
+                    </div>
+                `).join('') || '<p style="color: #666;">첫 댓글을 남겨보세요.</p>';
+        }
+
+        renderComments();
+
+        document.getElementById('submit-comment').addEventListener('click', () => {
+            if (!Auth.isLoggedIn()) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+            const content = document.getElementById('comment-input').value;
+            if (!content) return;
+
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            comments.push({
+                id: Date.now(),
+                postId: postId,
+                author: currentUser.username,
+                content: content,
+                date: new Date().toLocaleString()
+            });
+            localStorage.setItem('comments', JSON.stringify(comments));
+            document.getElementById('comment-input').value = '';
+            renderComments();
+        });
+
+        window.handleLike = () => {
+            post.likes++;
+            localStorage.setItem('posts', JSON.stringify(posts));
+            location.reload();
+        };
+
+        window.handleReport = () => {
+            const reason = prompt('신고 사유를 입력하세요:');
+            if (!reason) return;
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            reports.push({
+                id: Date.now(),
+                postId: postId,
+                postTitle: post.title,
+                reason: reason,
+                reporter: currentUser ? currentUser.username : 'anonymous',
+                status: 'pending'
+            });
+            localStorage.setItem('reports', JSON.stringify(reports));
+            alert('신고가 접수되었습니다.');
+        };
+
+        window.handleDelete = () => {
+            if (confirm('정말 삭제하시겠습니까?')) {
+                const newPosts = posts.filter(p => p.id !== postId);
+                localStorage.setItem('posts', JSON.stringify(newPosts));
+                alert('삭제되었습니다.');
+                location.href = '../boards/list.html';
+            }
+        };
+    });
+</script>
+</body>
+</html>

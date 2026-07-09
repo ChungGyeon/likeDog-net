@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net | Board</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+</head>
+<body>
+<header></header>
+
+<main class="container">
+    <div class="flex justify-between align-center mb-20">
+        <h1>전체 게시글</h1>
+        <div class="flex gap-10">
+            <select id="category-filter" style="padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #333; border-radius: 8px;">
+                <option value="all">전체 카테고리</option>
+                <option value="잡담">잡담</option>
+                <option value="법률">법률</option>
+                <option value="의뢰">의뢰</option>
+            </select>
+            <button id="write-btn" class="btn-primary" style="width: auto; padding: 10px 20px; margin-top: 0;">글쓰기</button>
+        </div>
+    </div>
+
+    <div class="card-grid" id="post-grid">
+        <!-- Posts will be loaded here -->
+    </div>
+</main>
+
+<script src="../../common/js/main.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const grid = document.getElementById('post-grid');
+        const filter = document.getElementById('category-filter');
+
+        function getPosts() {
+            return JSON.parse(localStorage.getItem('posts')) || [];
+        }
+
+        function renderPosts(filteredPosts) {
+            if (filteredPosts.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 50px; color: #666;">게시글이 없습니다.</p>';
+                return;
+            }
+            grid.innerHTML = filteredPosts.map(post => createPostCard(post)).join('');
+        }
+
+        renderPosts(getPosts());
+
+        filter.addEventListener('change', (e) => {
+            const cat = e.target.value;
+            const posts = getPosts();
+            const filtered = cat === 'all' ? posts : posts.filter(p => p.category === cat);
+            renderPosts(filtered);
+        });
+
+        document.getElementById('write-btn').addEventListener('click', () => {
+            if (!Auth.isLoggedIn()) {
+                alert('로그인이 필요합니다.');
+                location.href = '../auth/login.html';
+            } else {
+                const title = prompt('제목을 입력하세요:');
+                if (!title) return;
+                const content = prompt('내용을 입력하세요:');
+                if (!content) return;
+
+                const posts = getPosts();
+                const newPost = {
+                    id: Date.now(),
+                    title: title,
+                    content: content,
+                    author: Auth.getCurrentUser().username,
+                    authorLevel: Auth.getCurrentUser().level,
+                    views: 0,
+                    likes: 0,
+                    date: new Date().toISOString().split('T')[0],
+                    category: '잡담',
+                    image: `https://picsum.photos/seed/\${Date.now()}/400/300`
+                };
+
+                posts.unshift(newPost);
+                localStorage.setItem('posts', JSON.stringify(posts));
+                renderPosts(posts);
+            }
+        });
+    });
+</script>
+</body>
+</html>
