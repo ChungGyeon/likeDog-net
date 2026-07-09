@@ -34,63 +34,49 @@ likeDog
 │   │   └── index.html
 │   │
 │   ├── users
-│   │   ├── list.html
-│   │   ├── detail.html
-│   │   └── edit.html
+│   │   ├── list.html      # 유저 전체 리스트
+│   │   └── usersInfo.html # 유저 1명의 정보(게시한글,댓글 확인 가능한 곳)
+│   │
 │   │
 │   ├── boards
-│   │   ├── list.html
-│   │   ├── new.html
-│   │   ├── edit.html
-│   │   └── detail.html
+│   │   └──  list.html     #관리자 시점에서 보이는 게시글, 이곳에서 접근하는 게시글은 수정,삭제가 자유롭다.
 │   │
 │   ├── posts
-│   │   ├── list.html
-│   │   └── detail.html
+│   │   └──  post.html   #실제 유저 게시글, 관리자시점에서 보는 것
 │   │
-│   ├── comments
-│   │   └── list.html
 │   │
-│   └── reports
-│       └── list.html
+│   └── reports          
+│       └── list.html   #유저가 신고한 게시글이 올라오는 페이지
 │
 ├── user                     # 사용자 시스템
 │   │
 │   ├── home
-│   │   └── index.html
+│   │   └── index.html       #메인페이지
 │   │
 │   ├── auth
-│   │   ├── login.html
-│   │   ├── signup.html
-│   │   └── find-password.html
+│   │   ├── login.html      #로그인페이지
+│   │   ├── signup.html    #회원가입페이지
+│   │   └── find-password.html   #비밀번호 찾는 페이지, 현시점 구현계획 x
 │   │
 │   ├── boards
-│   │   ├── list.html
-│   │   └── detail.html
+│   │   └── list.html #게시글 전체가 보이는 리스트
 │   │
 │   ├── posts
-│   │   ├── new.html
-│   │   ├── detail.html
-│   │   └── edit.html
+│   │   ├── post.html #실제 유저 게시글
+│   │   └── edit.html #해당 게시글 수정페이지
 │   │
-│   ├── comments
-│   │   └── edit.html
 │   │
 │   ├── mypage
-│   │   ├── profile.html
+│   │   ├── profile.html   #유저 정보 확인 페이지, 이곳에서 자신이 쓴 글, 댓글 확인 가능 + 정보수정가능
 │   │   ├── posts.html
-│   │   ├── comments.html
-│   │   └── likes.html
+│   │   └── comments.html
+│   │
 │   │
 │   └── notifications
-│       └── list.html
+│       └── list.html       # 공지게시글은 따로 리스트업
 │
 └── common                   # 공통 시스템
-│
-├── layouts
-├── components
 ├── css
 ├── js
-├── images
-└── error
+└──images
 ```
