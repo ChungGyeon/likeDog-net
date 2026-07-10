@@ -890,3 +890,41 @@ nav ul li a:hover:not(.active) {
     background-position: center;
     background-repeat: no-repeat;
 }
+
+/* Navigation Dropdown */
+nav ul li.nav-dropdown {
+    position: relative;
+}
+
+nav ul li.nav-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    min-width: 180px;
+    z-index: 1100;
+    padding: 10px 0;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+nav ul li.nav-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li a {
+    padding: 10px 20px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+    font-size: 0.9rem;
+}
+
+.dropdown-menu li a:hover {
+    background-color: var(--accent-color) !important;
+    color: #000 !important;
+}
+

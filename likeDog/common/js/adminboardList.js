@@ -6,13 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Data Handling ---
     const getBoards = () => {
         const boards = localStorage.getItem('boards');
-        if (!boards) {
-            // If no boards exist, create a default one
-            const defaultBoard = [{ id: Date.now(), name: '최신 게시판', createdAt: new Date().toISOString().split('T')[0] }];
-            localStorage.setItem('boards', JSON.stringify(defaultBoard));
-            return defaultBoard;
-        }
-        return JSON.parse(boards);
+        return boards ? JSON.parse(boards) : [];
     };
 
     const saveBoards = (boards) => {
