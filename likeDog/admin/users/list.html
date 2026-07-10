@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net Admin | 회원 관리</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="logo">likeDog ADMIN</div>
+        <ul class="sidebar-menu">
+            <li><a href="../dashboard/index.html">대시보드</a></li>
+            <li><a href="list.html" class="active">회원 관리</a></li>
+            <li><a href="../boards/list.html">게시판 관리</a></li>
+            <li><a href="../reports/list.html">신고 처리</a></li>
+        </ul>
+        <div style="margin-top: auto;">
+            <a href="../../user/home/index.html" class="btn-secondary" style="display: block; text-align: center;">사용자 홈으로</a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <h1>회원 관리</h1>
+            <div id="admin-info"></div>
+        </header>
+
+        <div class="table-container">
+            <div style="padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <h3>전체 회원 목록</h3>
+                <input type="text" id="user-search" placeholder="이름 또는 이메일로 검색..." style="padding: 8px 12px; background-color: #0f0f0f; border: 1px solid var(--border-color); border-radius: 8px; color: #fff;">
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>회원 ID</th>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>가입일</th>
+                </tr>
+                </thead>
+                <tbody id="user-list-body">
+                <!-- 사용자 목록이 여기에 동적으로 채워집니다. -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script src="../../common/js/script.js"></script>
+<script src="../../common/js/adminlist.js"></script>
+</body>
+</html>

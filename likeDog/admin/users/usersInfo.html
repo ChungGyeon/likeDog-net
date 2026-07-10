@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net Admin | 회원 정보</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="logo">likeDog ADMIN</div>
+        <ul class="sidebar-menu">
+            <li><a href="../dashboard/index.html">대시보드</a></li>
+            <li><a href="list.html" class="active">회원 관리</a></li>
+            <li><a href="../boards/list.html">게시판 관리</a></li>
+            <li><a href="../reports/list.html">신고 처리</a></li>
+        </ul>
+        <div style="margin-top: auto;">
+            <a href="../../user/home/index.html" class="btn-secondary" style="display: block; text-align: center;">사용자 홈으로</a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <h1>회원 정보 상세</h1>
+            <a href="list.html" class="btn-secondary" style="width: auto; padding: 10px 20px;">목록으로 돌아가기</a>
+        </header>
+
+        <div class="form-container" style="max-width: 800px; margin: 20px 0;">
+            <div id="user-info-form">
+                <div class="form-group">
+                    <label for="userId">회원 ID</label>
+                    <input type="text" id="userId" name="userId" readonly style="background-color: #2a2a2a; cursor: not-allowed;">
+                </div>
+                <div class="form-group">
+                    <label for="userName">이름</label>
+                    <input type="text" id="userName" name="userName">
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">이메일</label>
+                    <input type="email" id="userEmail" name="userEmail">
+                </div>
+                <div class="form-group">
+                    <label for="signupDate">가입일</label>
+                    <input type="text" id="signupDate" name="signupDate" readonly style="background-color: #2a2a2a; cursor: not-allowed;">
+                </div>
+                <div class="form-group">
+                    <label for="userStatus">상태</label>
+                    <select id="userStatus" name="userStatus">
+                        <option value="active">활동중</option>
+                        <option value="suspended">정지</option>
+                        <option value="deleted">탈퇴</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 30px;">
+                    <button type="button" id="save-button" class="btn-primary" style="width: 100%;">정보 수정</button>
+                    <button type="button" id="delete-button" class="btn-secondary" style="width: 100%; background-color: var(--danger-color); color: white;">회원 삭제</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="../../common/js/script.js"></script>
+<script src="../../common/js/adminuserInfo.js"></script>
+</body>
+</html>
