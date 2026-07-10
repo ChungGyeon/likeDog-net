@@ -30,27 +30,30 @@
         <div class="form-container" style="max-width: 800px; margin: 20px 0;">
             <div id="user-info-form">
                 <div class="form-group">
-                    <label for="userId">회원 ID</label>
+                    <label for="userId">회원 ID (수정 불가)</label>
                     <input type="text" id="userId" name="userId" readonly style="background-color: #2a2a2a; cursor: not-allowed;">
                 </div>
-                <div class="form-group">
-                    <label for="userName">이름</label>
-                    <input type="text" id="userName" name="userName">
+                 <div class="form-group">
+                    <label for="username">아이디 (수정 불가)</label>
+                    <input type="text" id="username" name="username" readonly style="background-color: #2a2a2a; cursor: not-allowed;">
                 </div>
                 <div class="form-group">
-                    <label for="userEmail">이메일</label>
-                    <input type="email" id="userEmail" name="userEmail">
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name">
                 </div>
                 <div class="form-group">
-                    <label for="signupDate">가입일</label>
+                    <label for="signupDate">가입일 (수정 불가)</label>
                     <input type="text" id="signupDate" name="signupDate" readonly style="background-color: #2a2a2a; cursor: not-allowed;">
                 </div>
                 <div class="form-group">
-                    <label for="userStatus">상태</label>
-                    <select id="userStatus" name="userStatus">
-                        <option value="active">활동중</option>
-                        <option value="suspended">정지</option>
-                        <option value="deleted">탈퇴</option>
+                    <label for="level">레벨</label>
+                    <input type="number" id="level" name="level">
+                </div>
+                <div class="form-group">
+                    <label for="role">역할</label>
+                    <select id="role" name="role">
+                        <option value="user">사용자</option>
+                        <option value="admin">관리자</option>
                     </select>
                 </div>
 
