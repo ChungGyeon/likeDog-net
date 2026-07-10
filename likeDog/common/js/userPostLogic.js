@@ -9,15 +9,21 @@ const UserPostLogic = {
 
     // Populate Board Select Dropdown
     populateBoards: () => {
-        const boards = JSON.parse(localStorage.getItem('boards')) || [];
+        const allBoards = JSON.parse(localStorage.getItem('boards')) || [];
         const boardSelect = document.getElementById('post-board');
         
-        if (boards.length === 0) {
-            boardSelect.innerHTML = '<option value="">게시판을 찾을 수 없습니다</option>';
+        // Filter boards based on user role
+        let boardsToDisplay = allBoards;
+        if (!Auth.isAdmin()) {
+            boardsToDisplay = allBoards.filter(board => !board.adminOnly);
+        }
+
+        if (boardsToDisplay.length === 0) {
+            boardSelect.innerHTML = '<option value="">선택 가능한 게시판이 없습니다</option>';
             return;
         }
 
-        boardSelect.innerHTML = boards.map(board => `<option value="${board.id}">${board.name}</option>`).join('');
+        boardSelect.innerHTML = boardsToDisplay.map(board => `<option value="${board.id}">${board.name}</option>`).join('');
     },
 
     // Initialize Form (Create or Edit mode)
@@ -25,6 +31,9 @@ const UserPostLogic = {
         UserPostLogic.populateBoards(); // Populate boards first
 
         const postId = UserPostLogic.getPostId();
+        const urlParams = new URLSearchParams(window.location.search);
+        const boardIdFromUrl = urlParams.get('boardId');
+
         const formTitle = document.getElementById('form-main-title');
         const submitBtn = document.getElementById('submit-btn');
 
@@ -60,6 +69,10 @@ const UserPostLogic = {
             // Create Mode
             formTitle.textContent = '새 게시글 작성';
             submitBtn.textContent = '등록하기';
+            // Pre-select board if coming from a specific board page
+            if (boardIdFromUrl) {
+                document.getElementById('post-board').value = boardIdFromUrl;
+            }
         }
     },
 
@@ -74,7 +87,7 @@ const UserPostLogic = {
 
         const postId = UserPostLogic.getPostId();
         const title = document.getElementById('edit-title').value;
-        const boardId = parseInt(document.getElementById('post-board').value, 10); // Get selected board ID
+        const boardId = parseInt(document.getElementById('post-board').value, 10);
         const category = document.getElementById('edit-category').value;
         const content = document.getElementById('edit-content').value;
         const imageUrl = document.getElementById('edit-image-url').value || `https://picsum.photos/seed/${Date.now()}/400/300`;
@@ -83,6 +96,15 @@ const UserPostLogic = {
             alert('게시판을 선택해주세요.');
             return;
         }
+
+        // --- Permission Check ---
+        const boards = JSON.parse(localStorage.getItem('boards')) || [];
+        const selectedBoard = boards.find(b => b.id === boardId);
+        if (selectedBoard && selectedBoard.adminOnly && !Auth.isAdmin()) {
+            alert('이 게시판에 글을 작성할 권한이 없습니다.');
+            return;
+        }
+        // --- End Permission Check ---
 
         const posts = JSON.parse(localStorage.getItem('posts')) || [];
         const currentUser = Auth.getCurrentUser();
@@ -119,7 +141,7 @@ const UserPostLogic = {
         }
 
         localStorage.setItem('posts', JSON.stringify(posts));
-        location.href = postId ? `post.html?id=${postId}` : '../boards/list.html';
+        location.href = postId ? `post.html?id=${postId}` : `../boards/list.html?boardId=${boardId}`;
     }
 };
 

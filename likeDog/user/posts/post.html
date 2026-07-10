@@ -21,6 +21,7 @@
                     <span id="post-author-name">Loading...</span>
                 </div>
                 <div class="heart-count">❤️ <span id="post-likes">0</span></div>
+                <button id="report-post-btn" class="btn-secondary" style="width:auto; padding: 5px 15px; margin:0; font-size: 0.8rem; background-color: #555;">신고</button>
             </div>
             <div id="post-image-box" class="zenless-post-img-box"></div>
         </div>
@@ -154,6 +155,51 @@
                 location.href = '../boards/list.html';
             }
         };
+
+        // --- Handle Report Button Click ---
+        const reportBtn = document.getElementById('report-post-btn');
+        if (reportBtn) {
+            reportBtn.addEventListener('click', () => {
+                if (!Auth.isLoggedIn()) {
+                    alert('신고 기능은 로그인이 필요합니다.');
+                    location.href = '/likeDog/user/auth/login.html';
+                    return;
+                }
+
+                const reason = prompt('이 게시글을 신고하는 사유를 입력해주세요.');
+                if (reason === null) return; // User cancelled the prompt
+                if (!reason.trim()) {
+                    alert('신고 사유를 입력해야 합니다.');
+                    return;
+                }
+
+                const currentUser = Auth.getCurrentUser();
+                const reports = JSON.parse(localStorage.getItem('reports')) || [];
+
+                const newReport = {
+                    reportId: Date.now(),
+                    reporter: {
+                        username: currentUser.username,
+                        id: currentUser.id
+                    },
+                    reportedPost: {
+                        id: post.id,
+                        title: post.title
+                    },
+                    reportedAuthor: {
+                        username: post.author
+                    },
+                    reason: reason,
+                    status: 'pending',
+                    reportDate: new Date().toISOString().split('T')[0]
+                };
+
+                reports.push(newReport);
+                localStorage.setItem('reports', JSON.stringify(reports));
+
+                alert('신고가 정상적으로 접수되었습니다.');
+            });
+        }
     });
 </script>
 </body>

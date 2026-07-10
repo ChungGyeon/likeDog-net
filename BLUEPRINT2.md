@@ -41,9 +41,6 @@ likeDog
 │   ├── boards
 │   │   └──  list.html     #관리자 시점에서 보이는 게시글, 이곳에서 접근하는 게시글은 수정,삭제가 자유롭다.
 │   │
-│   ├── posts
-│   │   └──  post.html   #실제 유저 게시글, 관리자시점에서 보는 것
-│   │
 │   │
 │   └── reports          
 │       └── list.html   #유저가 신고한 게시글이 올라오는 페이지
@@ -66,14 +63,12 @@ likeDog
 │   │   └── edit.html #해당 게시글 수정페이지
 │   │
 │   │
-│   ├── mypage
-│   │   ├── profile.html   #유저 정보 확인 페이지, 이곳에서 자신이 쓴 글, 댓글 확인 가능 + 정보수정가능
-│   │   ├── posts.html
-│   │   └── comments.html
-│   │
-│   │
-│   └── notifications
-│       └── list.html       # 공지게시글은 따로 리스트업
+│   └── mypage
+│       ├── profile.html   #유저 정보 확인 페이지, 이곳에서 자신이 쓴 글, 댓글 확인 가능 + 정보수정가능
+│       ├── posts.html
+│       └── comments.html
+│   
+│   
 │
 └── common                   # 공통 시스템
 ├── css

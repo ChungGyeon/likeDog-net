@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net Admin | 신고 관리</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="logo">likeDog ADMIN</div>
+        <ul class="sidebar-menu">
+            <li><a href="../dashboard/index.html">대시보드</a></li>
+            <li><a href="../users/list.html">회원 관리</a></li>
+            <li><a href="../boards/list.html">게시판 관리</a></li>
+            <li><a href="list.html" class="active">신고 처리</a></li>
+        </ul>
+        <div style="margin-top: auto;">
+            <a href="../../user/home/index.html" class="btn-secondary" style="display: block; text-align: center;">사용자 홈으로</a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <h1>신고 관리</h1>
+        </header>
+
+        <div class="table-container">
+            <div style="padding: 20px; border-bottom: 1px solid var(--border-color);">
+                <h3>신고 목록</h3>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>신고 ID</th>
+                    <th>신고된 게시글</th>
+                    <th>신고된 작성자</th>
+                    <th>신고자</th>
+                    <th>신고 사유</th>
+                    <th>상태</th>
+                    <th>처리</th>
+                </tr>
+                </thead>
+                <tbody id="report-list-body">
+                <!-- Reports will be dynamically populated here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script src="../../common/js/adminReportList.js"></script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 
 // Initial Data Setup
 const initialPosts = [
+    { id: 6, boardId: 2, title: "개처럼넷 기본규정", content: "개처럼넷 기본 규정\n1.욕설금지\n2.19금 이미지 업로드 금지\n3.그외는 자유", author: "admin", authorLevel: 99, views: 15000, likes: 999, date: "2026-07-10", category: "공지", image: "https://picsum.photos/seed/post6/400/300" },
     { id: 1, boardId: 1, title: "[잡담] 에테르 적성 자가 테스트 결과가 나왔는데...", content: "공동에서 일해도 되는 거야? 아직 고등학교 졸업 전인 학생이라 걱정되네.", author: "lalala", authorLevel: 15, views: 5881, likes: 120, date: "2026-07-08", category: "잡담", image: "https://picsum.photos/seed/post1/400/300" },
     { id: 2, boardId: 1, title: "[잡담] 치명적 구조 재밌어?", content: "요즘 다들 치명적 구조에 대해 이야기하던데 나도 해볼까 고민 중이야.", author: "Indigo", authorLevel: 22, views: 7989, likes: 340, date: "2026-07-08", category: "잡담", image: "https://picsum.photos/seed/post2/400/300" },
     { id: 3, boardId: 1, title: "[법률 도움 요청] 우리 집 가사 도우미가 강도 3명을...", content: "오늘 방문 청소 서비스를 예약했는데, 집에 들어온 강도 3명을 도우미분이 때려눕혔어. 이거 정당방위 인정되겠지?", author: "나만고양이있어", authorLevel: 10, views: 9631, likes: 890, date: "2026-07-07", category: "법률", image: "https://picsum.photos/seed/post3/400/300" },
@@ -21,7 +22,8 @@ const initialNotis = [
 ];
 
 const initialBoards = [
-    { id: 1, name: '종류없는 게시판', createdAt: '2026-07-10' }
+    { id: 1, name: '종류상관없는 게시판', createdAt: '2026-07-10' },
+    { id: 2, name: '공지사항', createdAt: '2026-07-10', adminOnly: true }
 ];
 
 // Initialize LocalStorage
@@ -92,7 +94,7 @@ function renderHeader() {
             <ul>
                 <li><a href="/likeDog/user/home/index.html" id="nav-home">홈</a></li>
                 ${boardNavHtml}
-                <li><a href="/likeDog/user/notifications/list.html" id="nav-noti">공지사항</a></li>
+                <li><a href="/likeDog/user/boards/list.html?boardId=2" id="nav-noti">공지사항</a></li>
                 ${isAdmin ? '<li><a href="/likeDog/admin/dashboard/index.html" style="color: #eaff00;">관리자</a></li>' : ''}
             </ul>
         </nav>
