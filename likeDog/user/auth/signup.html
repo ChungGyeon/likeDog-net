@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net | Signup</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../common/css/style.css">
+    <!-- 전용 스타일 -->
+    <link rel="stylesheet" href="../../common/css/signup.css">
+</head>
+<body>
+<header></header>
+
+<main class="container">
+    <div class="form-container signup-container">
+        <h1 class="signup-title">Join Us</h1>
+        <p class="signup-subtitle">likeDog-Net의 새로운 멤버가 되어보세요</p>
+
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="username">아이디</label>
+                <input type="text" id="username" placeholder="4자 이상의 아이디" required>
+                <p class="input-hint">영문, 숫자 조합으로 입력해주세요.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="name">닉네임</label>
+                <input type="text" id="name" placeholder="활동할 이름을 입력하세요" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" placeholder="비밀번호를 입력하세요" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">비밀번호 확인</label>
+                <input type="password" id="confirm-password" placeholder="비밀번호를 한번 더 입력하세요" required>
+            </div>
+
+            <div class="form-group">
+                <label>이용약관</label>
+                <div class="terms-box">
+                    제 1조 (목적)
+                    본 약관은 likeDog-Net이 제공하는 커뮤니티 서비스의 이용조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.
+                    제 2조 (회원가입)
+                    회원은 본 약관에 동의하고 정해진 양식에 따라 가입 신청을 함으로써 자격을 얻습니다.
+                    제 3조 (게시물 관리)
+                    부적절한 게시물은 관리자에 의해 예고 없이 삭제될 수 있으며, 신고 처리 대상이 됩니다.
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agree-terms" required>
+                <label for="agree-terms">이용약관 및 개인정보 처리방침에 동의합니다.</label>
+            </div>
+
+            <button type="submit" class="btn-primary">가입하기</button>
+            <button type="button" onclick="location.href='login.html'" class="btn-secondary">이미 계정이 있으신가요? 로그인</button>
+        </form>
+    </div>
+</main>
+
+<!-- 공용 스크립트 -->
+<script src="../../common/js/script.js"></script>
+<!-- 전용 스크립트 -->
+<script src="../../common/js/signup.js"></script>
+</body>
+</html>
