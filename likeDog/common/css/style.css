@@ -18,6 +18,11 @@
 
 body {
     background-color: var(--bg-color);
+    background-image: url('../images/likedog_background.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: var(--text-primary);
     font-family: var(--font-family);
     line-height: 1.6;

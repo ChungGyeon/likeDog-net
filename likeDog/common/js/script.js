@@ -2,12 +2,12 @@
 
 // Initial Data Setup
 const initialPosts = [
-    { id: 6, boardId: 2, title: "개처럼넷 기본규정", content: "개처럼넷 기본 규정\n1.욕설금지\n2.19금 이미지 업로드 금지\n3.그외는 자유", author: "admin", authorLevel: 99, views: 15000, likes: 999, date: "2026-07-10", category: "공지", image: "https://picsum.photos/seed/post6/400/300" },
-    { id: 1, boardId: 1, title: "[잡담] 에테르 적성 자가 테스트 결과가 나왔는데...", content: "공동에서 일해도 되는 거야? 아직 고등학교 졸업 전인 학생이라 걱정되네.", author: "lalala", authorLevel: 15, views: 5881, likes: 120, date: "2026-07-08", category: "잡담", image: "https://picsum.photos/seed/post1/400/300" },
-    { id: 2, boardId: 1, title: "[잡담] 치명적 구조 재밌어?", content: "요즘 다들 치명적 구조에 대해 이야기하던데 나도 해볼까 고민 중이야.", author: "Indigo", authorLevel: 22, views: 7989, likes: 340, date: "2026-07-08", category: "잡담", image: "https://picsum.photos/seed/post2/400/300" },
-    { id: 3, boardId: 1, title: "[법률 도움 요청] 우리 집 가사 도우미가 강도 3명을...", content: "오늘 방문 청소 서비스를 예약했는데, 집에 들어온 강도 3명을 도우미분이 때려눕혔어. 이거 정당방위 인정되겠지?", author: "나만고양이있어", authorLevel: 10, views: 9631, likes: 890, date: "2026-07-07", category: "법률", image: "https://picsum.photos/seed/post3/400/300" },
-    { id: 4, boardId: 1, title: "[잡담] 낡은 지하철 골 폭파 예정", content: "옛 도시 지하철 개조 프로젝트의 일환으로 폭파한다고 하네. 다들 조심해.", author: "메티스정보실_1호", authorLevel: 45, views: 8267, likes: 156, date: "2026-07-07", category: "잡담", image: "https://picsum.photos/seed/post4/400/300" },
-    { id: 5, boardId: 1, title: "[잡담] 비전 컴퍼니의 충격적인 스캔들 폭로", content: "며칠 전 비전 컴퍼니가 보상 비용을 횡령했다는 증거를 확보했어.", author: "메티스정보실_1호", authorLevel: 45, views: 13409, likes: 1200, date: "2026-07-06", category: "잡담", image: "https://picsum.photos/seed/post5/400/300" }
+    { id: 6, boardId: 2, title: "개처럼넷 기본규정", content: "개처럼넷 기본 규정\n1.욕설금지\n2.19금 이미지 업로드 금지\n3.그외는 자유", author: "admin", authorLevel: 99, views: 15000, likes: 999, date: "2026-07-10", category: "공지", image: "https://picsum.photos/seed/post6/400/300", likedBy: [], viewedBy: [] },
+    { id: 1, boardId: 1, title: "[잡담] 에테르 적성 자가 테스트 결과가 나왔는데...", content: "공동에서 일해도 되는 거야? 아직 고등학교 졸업 전인 학생이라 걱정되네.", author: "lalala", authorLevel: 15, views: 5881, likes: 120, date: "2026-07-08", category: "잡담", image: "https://picsum.photos/seed/post1/400/300", likedBy: [], viewedBy: [] },
+    { id: 2, boardId: 1, title: "[잡담] 치명적 구조 재밌어?", content: "요즘 다들 치명적 구조에 대해 이야기하던데 나도 해볼까 고민 중이야.", author: "Indigo", authorLevel: 22, views: 7989, likes: 340, date: "2026-07-08", category: "잡담", image: "https://picsum.photos/seed/post2/400/300", likedBy: [], viewedBy: [] },
+    { id: 3, boardId: 1, title: "[법률 도움 요청] 우리 집 가사 도우미가 강도 3명을...", content: "오늘 방문 청소 서비스를 예약했는데, 집에 들어온 강도 3명을 도우미분이 때려눕혔어. 이거 정당방위 인정되겠지?", author: "나만고양이있어", authorLevel: 10, views: 9631, likes: 890, date: "2026-07-07", category: "법률", image: "https://picsum.photos/seed/post3/400/300", likedBy: [], viewedBy: [] },
+    { id: 4, boardId: 1, title: "[잡담] 낡은 지하철 골 폭파 예정", content: "옛 도시 지하철 개조 프로젝트의 일환으로 폭파한다고 하네. 다들 조심해.", author: "메티스정보실_1호", authorLevel: 45, views: 8267, likes: 156, date: "2026-07-07", category: "잡담", image: "https://picsum.photos/seed/post4/400/300", likedBy: [], viewedBy: [] },
+    { id: 5, boardId: 1, title: "[잡담] 비전 컴퍼니의 충격적인 스캔들 폭로", content: "며칠 전 비전 컴퍼니가 보상 비용을 횡령했다는 증거를 확보했어.", author: "메티스정보실_1호", authorLevel: 45, views: 13409, likes: 1200, date: "2026-07-06", category: "잡담", image: "https://picsum.photos/seed/post5/400/300", likedBy: [], viewedBy: [] }
 ];
 
 const initialUsers = [

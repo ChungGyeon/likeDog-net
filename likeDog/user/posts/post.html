@@ -11,7 +11,7 @@
 
 <main class="container">
     <div class="zenless-post-container">
-        <div class="zenless-close-btn" onclick="location.href='../boards/list.html'">×</div>
+        <div class="zenless-close-btn" onclick="history.back()">×</div>
 
         <!-- Left Side: Image -->
         <div class="zenless-post-left">
@@ -20,7 +20,8 @@
                     <div class="author-img" style="width: 30px; height: 30px;"></div>
                     <span id="post-author-name">Loading...</span>
                 </div>
-                <div class="heart-count">❤️ <span id="post-likes">0</span></div>
+                <div class="heart-count">👁️ <span id="post-views">0</span></div>
+                <div id="like-btn" class="heart-count" style="cursor: pointer; user-select: none; transition: all 0.2s ease;">❤️ <span id="post-likes">0</span></div>
                 <button id="report-post-btn" class="btn-secondary" style="width:auto; padding: 5px 15px; margin:0; font-size: 0.8rem; background-color: #555;">신고</button>
             </div>
             <div id="post-image-box" class="zenless-post-img-box"></div>
@@ -66,82 +67,78 @@
         const urlParams = new URLSearchParams(window.location.search);
         const postId = parseInt(urlParams.get('id'));
         const posts = JSON.parse(localStorage.getItem('posts')) || [];
-        const post = posts.find(p => p.id === postId);
+        const postIndex = posts.findIndex(p => p.id === postId);
 
-        if (!post) {
+        if (postIndex === -1) {
             alert('존재하지 않는 게시글입니다.');
             location.href = '../boards/list.html';
             return;
         }
 
-        // Find author to get profile image
+        const post = posts[postIndex];
+        const currentUser = Auth.getCurrentUser();
+
+        // --- View Count Logic ---
+        if (currentUser) {
+            post.viewedBy = post.viewedBy || [];
+            if (!post.viewedBy.includes(currentUser.username)) {
+                post.views++;
+                post.viewedBy.push(currentUser.username);
+                posts[postIndex] = post; // Update the post in the main array
+                localStorage.setItem('posts', JSON.stringify(posts));
+            }
+        }
+
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const author = users.find(u => u.username === post.author);
         if (author && author.profileImage) {
             document.querySelector('.author-img').style.backgroundImage = `url('${author.profileImage}')`;
         }
 
-        // UI Data Injection
+        // --- UI Data Injection ---
         document.getElementById('post-title').textContent = post.title;
         document.getElementById('post-content').textContent = post.content;
         document.getElementById('post-author-name').textContent = post.author;
+        document.getElementById('post-views').textContent = post.views;
         document.getElementById('post-likes').textContent = post.likes;
         if (post.image) {
             document.getElementById('post-image-box').style.backgroundImage = `url('${post.image}')`;
         }
 
-        const currentUser = Auth.getCurrentUser();
         const isAuthor = currentUser && currentUser.username === post.author;
         const isAdmin = Auth.isAdmin();
 
         if (isAuthor || isAdmin) {
             document.getElementById('post-admin-actions').innerHTML = `
-                    <button class="btn-sm btn-edit" onclick="location.href='edit.html?id=${post.id}'">게시글 수정</button>
-                    <button class="btn-sm btn-del" onclick="handleDelete()">게시글 삭제</button>
-                `;
+                <button class="btn-sm" onclick="location.href='edit.html?id=${post.id}'" style="background-color: var(--accent-color); color: #000;">게시글 수정</button>
+                <button class="btn-sm" onclick="handleDelete()" style="background-color: var(--danger-color); color: #fff;">게시글 삭제</button>
+            `;
         }
 
-        // Comments Logic
         function renderComments() {
             const comments = JSON.parse(localStorage.getItem('comments')) || [];
             const postComments = comments.filter(c => c.postId === postId);
             const list = document.getElementById('comment-list');
             document.getElementById('comment-count').textContent = `${postComments.length} comments`;
-
             list.innerHTML = postComments.map((c, index) => {
                 const commentAuthor = users.find(u => u.username === c.author);
                 const commentAuthorImgStyle = commentAuthor && commentAuthor.profileImage ? `style="background-image: url('${commentAuthor.profileImage}')"` : '';
                 return `
                     <div class="zenless-comment-item ${index === 0 ? 'highlight' : ''}">
                         <div class="comment-avatar" ${commentAuthorImgStyle}></div>
-                        <div class="comment-info">
-                            <div class="author">${c.author}</div>
-                            <div class="text">${c.content}</div>
-                        </div>
+                        <div class="comment-info"><div class="author">${c.author}</div><div class="text">${c.content}</div></div>
                         <div class="comment-floor">${index + 1}F</div>
-                    </div>
-                `
+                    </div>`;
             }).join('') || '<p style="color: #666; padding: 20px; text-align: center;">아직 댓글이 없습니다.</p>';
         }
-
         renderComments();
 
         document.getElementById('submit-comment').addEventListener('click', () => {
-            if (!Auth.isLoggedIn()) {
-                alert('로그인이 필요합니다.');
-                return;
-            }
+            if (!Auth.isLoggedIn()) { alert('로그인이 필요합니다.'); return; }
             const content = document.getElementById('comment-input').value;
             if (!content) return;
-
             const comments = JSON.parse(localStorage.getItem('comments')) || [];
-            comments.push({
-                id: Date.now(),
-                postId: postId,
-                author: currentUser.username,
-                content: content,
-                date: new Date().toLocaleString()
-            });
+            comments.push({ id: Date.now(), postId, author: currentUser.username, content, date: new Date().toLocaleString() });
             localStorage.setItem('comments', JSON.stringify(comments));
             document.getElementById('comment-input').value = '';
             renderComments();
@@ -156,50 +153,61 @@
             }
         };
 
-        // --- Handle Report Button Click ---
         const reportBtn = document.getElementById('report-post-btn');
         if (reportBtn) {
             reportBtn.addEventListener('click', () => {
-                if (!Auth.isLoggedIn()) {
-                    alert('신고 기능은 로그인이 필요합니다.');
-                    location.href = '/likeDog/user/auth/login.html';
-                    return;
-                }
-
+                if (!Auth.isLoggedIn()) { alert('신고 기능은 로그인이 필요합니다.'); location.href = '/likeDog/user/auth/login.html'; return; }
                 const reason = prompt('이 게시글을 신고하는 사유를 입력해주세요.');
-                if (reason === null) return; // User cancelled the prompt
-                if (!reason.trim()) {
-                    alert('신고 사유를 입력해야 합니다.');
-                    return;
-                }
-
-                const currentUser = Auth.getCurrentUser();
+                if (reason === null) return;
+                if (!reason.trim()) { alert('신고 사유를 입력해야 합니다.'); return; }
                 const reports = JSON.parse(localStorage.getItem('reports')) || [];
-
-                const newReport = {
+                reports.push({
                     reportId: Date.now(),
-                    reporter: {
-                        username: currentUser.username,
-                        id: currentUser.id
-                    },
-                    reportedPost: {
-                        id: post.id,
-                        title: post.title
-                    },
-                    reportedAuthor: {
-                        username: post.author
-                    },
-                    reason: reason,
-                    status: 'pending',
-                    reportDate: new Date().toISOString().split('T')[0]
-                };
-
-                reports.push(newReport);
+                    reporter: { username: currentUser.username, id: currentUser.id },
+                    reportedPost: { id: post.id, title: post.title },
+                    reportedAuthor: { username: post.author },
+                    reason: reason, status: 'pending', reportDate: new Date().toISOString().split('T')[0]
+                });
                 localStorage.setItem('reports', JSON.stringify(reports));
-
                 alert('신고가 정상적으로 접수되었습니다.');
             });
         }
+
+        const likeBtn = document.getElementById('like-btn');
+        const postLikesSpan = document.getElementById('post-likes');
+        const updateLikeButtonVisual = () => {
+            if (!currentUser) return;
+            post.likedBy = post.likedBy || [];
+            if (post.likedBy.includes(currentUser.username)) {
+                likeBtn.style.color = 'var(--danger-color)';
+                likeBtn.style.transform = 'scale(1.1)';
+            } else {
+                likeBtn.style.color = '';
+                likeBtn.style.transform = '';
+            }
+        };
+        likeBtn.addEventListener('click', () => {
+            if (!Auth.isLoggedIn()) { alert('로그인이 필요합니다.'); return; }
+            const allPosts = JSON.parse(localStorage.getItem('posts')) || [];
+            const postIndex = allPosts.findIndex(p => p.id === postId);
+            if (postIndex === -1) return;
+            const targetPost = allPosts[postIndex];
+            targetPost.likedBy = targetPost.likedBy || [];
+            const userIndexInLikedBy = targetPost.likedBy.indexOf(currentUser.username);
+            if (userIndexInLikedBy > -1) {
+                targetPost.likes--;
+                targetPost.likedBy.splice(userIndexInLikedBy, 1);
+            } else {
+                targetPost.likes++;
+                targetPost.likedBy.push(currentUser.username);
+            }
+            localStorage.setItem('posts', JSON.stringify(allPosts));
+            post.likes = targetPost.likes;
+            post.likedBy = targetPost.likedBy;
+            postLikesSpan.textContent = post.likes;
+            updateLikeButtonVisual();
+        });
+        updateLikeButtonVisual();
     });
 </script>
 </body>
