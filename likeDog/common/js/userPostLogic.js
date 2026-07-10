@@ -7,8 +7,23 @@ const UserPostLogic = {
         return parseInt(urlParams.get('id'));
     },
 
+    // Populate Board Select Dropdown
+    populateBoards: () => {
+        const boards = JSON.parse(localStorage.getItem('boards')) || [];
+        const boardSelect = document.getElementById('post-board');
+        
+        if (boards.length === 0) {
+            boardSelect.innerHTML = '<option value="">게시판을 찾을 수 없습니다</option>';
+            return;
+        }
+
+        boardSelect.innerHTML = boards.map(board => `<option value="${board.id}">${board.name}</option>`).join('');
+    },
+
     // Initialize Form (Create or Edit mode)
     initForm: () => {
+        UserPostLogic.populateBoards(); // Populate boards first
+
         const postId = UserPostLogic.getPostId();
         const formTitle = document.getElementById('form-main-title');
         const submitBtn = document.getElementById('submit-btn');
@@ -35,7 +50,9 @@ const UserPostLogic = {
             formTitle.textContent = '게시글 수정';
             submitBtn.textContent = '수정 완료';
 
+            // Populate form with existing post data
             document.getElementById('edit-title').value = post.title;
+            if(post.boardId) document.getElementById('post-board').value = post.boardId; // Set selected board
             document.getElementById('edit-category').value = post.category;
             document.getElementById('edit-content').value = post.content;
             if (post.image) document.getElementById('edit-image-url').value = post.image;
@@ -57,9 +74,15 @@ const UserPostLogic = {
 
         const postId = UserPostLogic.getPostId();
         const title = document.getElementById('edit-title').value;
+        const boardId = parseInt(document.getElementById('post-board').value, 10); // Get selected board ID
         const category = document.getElementById('edit-category').value;
         const content = document.getElementById('edit-content').value;
         const imageUrl = document.getElementById('edit-image-url').value || `https://picsum.photos/seed/${Date.now()}/400/300`;
+
+        if (!boardId) {
+            alert('게시판을 선택해주세요.');
+            return;
+        }
 
         const posts = JSON.parse(localStorage.getItem('posts')) || [];
         const currentUser = Auth.getCurrentUser();
@@ -70,6 +93,7 @@ const UserPostLogic = {
             posts[index] = {
                 ...posts[index],
                 title,
+                boardId, // Add boardId to updated post
                 category,
                 content,
                 image: imageUrl
@@ -80,6 +104,7 @@ const UserPostLogic = {
             const newPost = {
                 id: Date.now(),
                 title,
+                boardId, // Add boardId to new post
                 category,
                 content,
                 author: currentUser.username,

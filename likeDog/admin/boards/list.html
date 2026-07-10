@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net Admin | 게시판 관리</title>
+    <link rel="stylesheet" href="../../common/css/style.css">
+    <link rel="stylesheet" href="../../common/css/adminboardList.css">
+</head>
+<body>
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="logo">likeDog ADMIN</div>
+        <ul class="sidebar-menu">
+            <li><a href="../dashboard/index.html">대시보드</a></li>
+            <li><a href="../users/list.html">회원 관리</a></li>
+            <li><a href="list.html" class="active">게시판 관리</a></li>
+            <li><a href="../reports/list.html">신고 처리</a></li>
+        </ul>
+        <div style="margin-top: auto;">
+            <a href="../../user/home/index.html" class="btn-secondary" style="display: block; text-align: center;">사용자 홈으로</a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <h1>게시판 관리</h1>
+        </header>
+
+        <!-- Create Board Form -->
+        <div class="form-container" style="max-width: 100%; margin: 0 0 30px 0;">
+            <h3 style="margin-bottom: 20px;">새 게시판 생성</h3>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="new-board-name" placeholder="게시판 이름을 입력하세요" style="flex-grow: 1;">
+                <button id="create-board-btn" class="btn-primary" style="width: 120px; margin-top: 0;">생성</button>
+            </div>
+        </div>
+
+        <!-- Board List -->
+        <div class="table-container">
+            <div style="padding: 20px; border-bottom: 1px solid var(--border-color);">
+                <h3>게시판 목록</h3>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>게시판 이름</th>
+                    <th>생성일</th>
+                    <th>작업</th>
+                </tr>
+                </thead>
+                <tbody id="board-list-body">
+                <!-- Board list will be dynamically populated here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script src="../../common/js/adminboardList.js"></script>
+</body>
+</html>

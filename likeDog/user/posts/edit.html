@@ -20,17 +20,24 @@
 
             <div class="flex gap-10">
                 <div class="form-group" style="flex: 1;">
-                    <label>카테고리</label>
+                    <label for="post-board">게시판</label>
+                    <select id="post-board">
+                        <!-- 게시판 목록이 여기에 동적으로 채워집니다. -->
+                    </select>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="edit-category">카테고리</label>
                     <select id="edit-category">
                         <option value="잡담">잡담</option>
                         <option value="법률">법률</option>
                         <option value="의뢰">의뢰</option>
                     </select>
                 </div>
-                <div class="form-group" style="flex: 2;">
-                    <label>이미지 URL (선택)</label>
-                    <input type="text" id="edit-image-url" placeholder="https://example.com/image.jpg">
-                </div>
+            </div>
+
+            <div class="form-group">
+                <label>이미지 URL (선택)</label>
+                <input type="text" id="edit-image-url" placeholder="https://example.com/image.jpg">
             </div>
 
             <div class="form-group">

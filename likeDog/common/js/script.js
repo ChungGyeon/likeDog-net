@@ -114,6 +114,13 @@ function renderHeader() {
 
 // Post Renderer
 function createPostCard(post) {
+    const boards = JSON.parse(localStorage.getItem('boards')) || [];
+    const boardMap = boards.reduce((acc, board) => {
+        acc[board.id] = board.name;
+        return acc;
+    }, {});
+    const boardName = boardMap[post.boardId] || '미분류';
+
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const author = users.find(u => u.username === post.author);
     const authorImgStyle = author && author.profileImage ? `style="background-image: url('${author.profileImage}')"` : '';
@@ -125,7 +132,10 @@ function createPostCard(post) {
                 <div class="card-views">👁️ ${post.views}</div>
             </div>
             <div class="card-content">
-                <span class="card-tag">${post.category}</span>
+                <div>
+                    <span class="card-tag" style="color: var(--accent-color);">${boardName}</span>
+                    <span class="card-tag">${post.category}</span>
+                </div>
                 <h3 class="card-title">${post.title}</h3>
                 <p class="card-desc">${post.content}</p>
                 <div class="card-footer">
