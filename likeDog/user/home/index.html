@@ -5,34 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>likeDog-Net | Home</title>
     <link rel="stylesheet" href="../../common/css/style.css">
+    <style>
+        /* Styles for the new home page layout */
+        .board-section {
+            margin-bottom: 50px;
+        }
+        .board-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .board-section-header h2 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+        .board-section-header a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .board-section-header a:hover {
+            color: var(--accent-color);
+        }
+    </style>
 </head>
 <body>
 <header></header>
 
-<main class="container">
-    <section class="hero" style="padding: 40px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 30px;">
-        <h1 style="font-size: 3rem; margin-bottom: 10px;">WELCOME TO <span class="text-accent">LIKEDOG-NET</span></h1>
-        <p style="color: var(--text-secondary);">새로운 의뢰와 잡담이 가득한 커뮤니티. 당신의 이야기를 들려주세요.</p>
-    </section>
-
-    <div class="flex justify-between align-center">
-        <h2>최신 게시글</h2>
-        <a href="../boards/list.html" class="text-accent">전체 보기 ></a>
-    </div>
-
-    <div class="card-grid" id="main-post-grid">
-        <!-- Posts will be loaded here -->
-    </div>
+<main class="container" id="home-content-container">
+    <!-- Board sections will be dynamically rendered here by JavaScript -->
 </main>
 
 <script src="../../common/js/script.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const posts = JSON.parse(localStorage.getItem('posts')) || [];
-        const grid = document.getElementById('main-post-grid');
-        // Show only first 6 posts on home
-        grid.innerHTML = posts.slice(0, 6).map(post => createPostCard(post)).join('');
-    });
-</script>
 </body>
 </html>

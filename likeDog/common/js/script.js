@@ -150,46 +150,99 @@ function createPostCard(post) {
     `;
 }
 
-function renderBoard() {
+function renderHomePage() {
+    const container = document.getElementById('home-content-container');
+    if (!container) return;
+
+    const boards = JSON.parse(localStorage.getItem('boards')) || [];
+    const allPosts = JSON.parse(localStorage.getItem('posts')) || [];
+
+    if (boards.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 50px 0;">게시판이 없습니다.</p>';
+        return;
+    }
+
+    let allSectionsHtml = '';
+    boards.forEach(board => {
+        const boardPosts = allPosts.filter(p => p.boardId === board.id).slice(0, 10);
+        
+        let postsHtml = '';
+        if (boardPosts.length > 0) {
+            postsHtml = boardPosts.map(post => createPostCard(post)).join('');
+        } else {
+            postsHtml = '<p style="text-align: center; color: var(--text-secondary); padding: 40px 0; grid-column: 1 / -1;">이 게시판에는 아직 게시글이 없습니다.</p>';
+        }
+
+        allSectionsHtml += `
+            <section class="board-section">
+                <div class="board-section-header">
+                    <h2>${board.name}</h2>
+                    <a href="/likeDog/user/boards/list.html?boardId=${board.id}">더보기 &gt;</a>
+                </div>
+                <div class="card-grid">
+                    ${postsHtml}
+                </div>
+            </section>
+        `;
+    });
+
+    container.innerHTML = allSectionsHtml;
+}
+
+function renderBoardPage() {
+    const container = document.getElementById('board-page-container');
+    if (!container) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const boardId = urlParams.get('boardId') ? parseInt(urlParams.get('boardId'), 10) : null;
+
+    const allPosts = JSON.parse(localStorage.getItem('posts')) || [];
+    const boards = JSON.parse(localStorage.getItem('boards')) || [];
+    
     const grid = document.getElementById('post-grid');
+    const titleEl = document.getElementById('board-page-title');
     const filter = document.getElementById('category-filter');
     const writeBtn = document.getElementById('write-btn');
 
-    if (!grid) return;
+    let postsToShow = [];
 
-    function getPosts() {
-        return JSON.parse(localStorage.getItem('posts')) || [];
+    if (boardId) {
+        const board = boards.find(b => b.id === boardId);
+        if (board) {
+            titleEl.textContent = board.name;
+            postsToShow = allPosts.filter(p => p.boardId === boardId);
+        } else {
+            titleEl.textContent = '알 수 없는 게시판';
+        }
+    } else {
+        titleEl.textContent = '전체 게시글';
+        postsToShow = allPosts;
     }
 
-    function renderPosts(filteredPosts) {
-        if (filteredPosts.length === 0) {
+    function renderFilteredPosts() {
+        const category = filter.value;
+        const finalPosts = category === 'all' ? postsToShow : postsToShow.filter(p => p.category === category);
+
+        if (finalPosts.length === 0) {
             grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 50px; color: #666;">게시글이 없습니다.</p>';
             return;
         }
-        grid.innerHTML = filteredPosts.map(post => createPostCard(post)).join('');
+        grid.innerHTML = finalPosts.map(post => createPostCard(post)).join('');
     }
 
-    renderPosts(getPosts());
+    filter.addEventListener('change', renderFilteredPosts);
+    writeBtn.addEventListener('click', () => {
+        if (!Auth.isLoggedIn()) {
+            alert('로그인이 필요합니다.');
+            location.href = '../auth/login.html';
+        } else {
+            // Pass boardId to edit page so it can be pre-selected
+            const url = boardId ? `../posts/edit.html?boardId=${boardId}` : '../posts/edit.html';
+            location.href = url;
+        }
+    });
 
-    if (filter) {
-        filter.addEventListener('change', (e) => {
-            const cat = e.target.value;
-            const posts = getPosts();
-            const filtered = cat === 'all' ? posts : posts.filter(p => p.category === cat);
-            renderPosts(filtered);
-        });
-    }
-
-    if (writeBtn) {
-        writeBtn.addEventListener('click', () => {
-            if (!Auth.isLoggedIn()) {
-                alert('로그인이 필요합니다.');
-                location.href = '../auth/login.html';
-            } else {
-                location.href = '../posts/edit.html';
-            }
-        });
-    }
+    renderFilteredPosts(); // Initial render
 }
 
 // Global scope expose for event handlers
@@ -200,8 +253,9 @@ window.createPostCard = createPostCard;
 document.addEventListener('DOMContentLoaded', () => {
     renderHeader();
 
-    // Render board if on the board page
-    if (document.getElementById('post-grid')) {
-        renderBoard();
+    if (document.getElementById('home-content-container')) {
+        renderHomePage();
+    } else if (document.getElementById('board-page-container')) {
+        renderBoardPage();
     }
 });
