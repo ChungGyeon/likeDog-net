@@ -304,6 +304,26 @@ nav ul li a:hover:not(.active) {
     font-size: 1rem;
 }
 
+/* Button variants */
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 8px;
+    text-align: center;
+    /* These buttons are not full width by default */
+    width: auto;
+}
+.btn-sm.btn-primary {
+    background-color: var(--accent-color);
+    color: #000;
+}
+.btn-sm.btn-secondary {
+    background-color: #333;
+    color: #fff;
+}
+
+
 .form-footer {
     margin-top: 20px;
     text-align: center;
