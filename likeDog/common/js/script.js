@@ -43,10 +43,24 @@ const Auth = {
     login: (username, password) => {
         const users = JSON.parse(localStorage.getItem('users'));
         const user = users.find(u => u.username === username);
-        if (user) {
+
+        if (!user) {
+            return false; // User not found
+        }
+
+        // Special case for admin and user1
+        if (user.username === 'admin' || user.username === 'user1') {
             localStorage.setItem('currentUser', JSON.stringify(user));
             return true;
         }
+
+        // For all other users, check the password
+        // It also handles users who haven't set a password yet (user.password is undefined)
+        if (user.password && user.password === password) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            return true;
+        }
+
         return false;
     },
     logout: () => {

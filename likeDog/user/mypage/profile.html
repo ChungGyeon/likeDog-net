@@ -30,7 +30,7 @@
             <input type="file" id="profile-image-input" accept="image/*" style="display: none;">
             <div class="mypage-menu">
                 <button class="mypage-menu-btn" onclick="handleEditProfile()">닉네임 변경</button>
-                <button class="mypage-menu-btn">알림 설정</button>
+                <button class="mypage-menu-btn" onclick="handleChangePassword()">비밀번호 변경</button>
                 <button class="mypage-menu-btn danger">회원탈퇴</button>
             </div>
         </div>
@@ -184,6 +184,51 @@
                 alert('닉네임이 변경되었습니다.');
                 location.reload();
             }
+        };
+
+        window.handleChangePassword = () => {
+            const allUsers = JSON.parse(localStorage.getItem('users')) || [];
+            const userRecord = allUsers.find(u => u.id === user.id);
+            if (!userRecord) {
+                alert('오류: 사용자 정보를 찾을 수 없습니다.');
+                return;
+            }
+
+            const hasPassword = userRecord.hasOwnProperty('password');
+
+            if (hasPassword) {
+                const currentPassword = prompt('현재 비밀번호를 입력하세요:');
+                if (currentPassword === null) return; // User cancelled
+                if (currentPassword !== userRecord.password) {
+                    alert('현재 비밀번호가 일치하지 않습니다.');
+                    return;
+                }
+            }
+
+            const newPassword = prompt(hasPassword ? '새로운 비밀번호를 입력하세요:' : '사용할 첫 비밀번호를 입력하세요:');
+            if (newPassword === null) return;
+            if (!newPassword || newPassword.length < 4) {
+                alert('비밀번호는 4자 이상이어야 합니다.');
+                return;
+            }
+
+            const confirmNewPassword = prompt('새로운 비밀번호를 다시 한번 입력하세요:');
+            if (confirmNewPassword === null) return;
+            if (newPassword !== confirmNewPassword) {
+                alert('새로운 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            // Update password in allUsers array
+            userRecord.password = newPassword;
+            localStorage.setItem('users', JSON.stringify(allUsers));
+
+            // Also update the currentUser object in localStorage
+            const currentUser = Auth.getCurrentUser();
+            currentUser.password = newPassword;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            alert('비밀번호가 성공적으로 변경되었습니다.');
         };
     });
 </script>
