@@ -166,6 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.handleDeleteAccount = () => {
+        if (user.username === 'admin') {
+            alert('관리자 계정은 삭제할 수 없습니다.');
+            return;
+        }
+
         if (!confirm('정말 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
             return;
         }
