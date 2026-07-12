@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>likeDog-Net | Post Detail</title>
     <link rel="stylesheet" href="../../common/css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../../common/css/post.css">
+</head><body>
 <header></header>
 
 <main class="container">
@@ -56,7 +56,7 @@
     </div>
 
     <!-- Admin/Author Actions -->
-    <div id="post-admin-actions" class="mt-20 flex gap-10">
+    <div id="post-admin-actions" class="post-actions mt-20">
         <!-- Buttons will be injected here -->
     </div>
 </main>
@@ -110,8 +110,8 @@
 
         if (isAuthor || isAdmin) {
             document.getElementById('post-admin-actions').innerHTML = `
-                <button class="btn-sm" onclick="location.href='edit.html?id=${post.id}'" style="background-color: var(--accent-color); color: #000;">게시글 수정</button>
-                <button class="btn-sm" onclick="handleDelete()" style="background-color: var(--danger-color); color: #fff;">게시글 삭제</button>
+                <a href="edit.html?id=${post.id}" class="btn btn-edit">수정</a>
+                <button onclick="handleDelete()" class="btn btn-delete">삭제</button>
             `;
         }
 

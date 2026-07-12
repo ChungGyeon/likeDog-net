@@ -1,0 +1,47 @@
+/* /common/css/post.css */
+
+.zenless-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px; /* Keep some space below the header */
+}
+
+.zenless-post-title {
+    margin: 0; /* Remove default margin from h1 */
+    flex-grow: 1; /* Allow title to take available space */
+}
+
+.post-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.post-actions .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-actions .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.post-actions .btn-edit {
+    background-color: var(--accent-color);
+    color: #000;
+}
+
+.post-actions .btn-delete {
+    background-color: var(--danger-color);
+    color: #fff;
+}
