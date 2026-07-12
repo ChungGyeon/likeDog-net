@@ -81,3 +81,12 @@ likeDog
 1. 공용으로 사용되는 style.css, script.js를 우선 확인 후, 작업을 수행한다.
 2. 각 html에 대응하는 css,js는 common 디렉토리의 css,js에 각기 구현한다. (예시: test.html의 css,js는 test.css.js파일로 구현)
 3. 외부 DB를 사용하지 않고 오로지 브라우저의 localStorege만을 사용하여 구현한다.
+
+
+#Todo
+1. user/posts/post.html에서 게시글 수정,삭제 버튼 디자인 꾸미기
+2. ./post.html에서 자신이 작성한 댓글 수정, 삭제 기능 필요
+3. user/mypage/profile.html에서 정보수정 버튼을 닉네임 변경으로 변경
+4. ./profile.html에서 알림설정 버튼을 비밀번호 변경 버튼으로 변경 및 기능 구현
+5. ./profile.html에서 계정설정 버튼을 삭제
+6. ./profile.html에서 회원탈퇴 버튼 기능을 구현, 이때 삭제 확인은 총 두번 정말 삭제할 것인지 묻고, 현재 비밀번호도 맞췄을 경우 삭제하도록 구현
