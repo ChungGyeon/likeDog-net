@@ -933,3 +933,100 @@ nav ul li.nav-dropdown:hover .dropdown-menu {
     color: #000 !important;
 }
 
+@media (max-width: 768px) {
+    /* General */
+    body {
+        background-image: none; /* Save bandwidth and simplify view */
+    }
+    .container {
+        padding: 10px;
+    }
+
+    /* Header */
+    header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+    nav ul li a {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+    .user-status .user-info {
+        display: none; /* Hide text, just show profile image and buttons */
+    }
+
+    /* Card Grid */
+    .card-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+    }
+
+    /* Forms */
+    .form-container {
+        width: 100%;
+        padding: 20px;
+        margin: 20px 0;
+        border: none;
+    }
+
+    /* Post Detail (Zenless Style) */
+    .zenless-post-container {
+        flex-direction: column;
+        height: auto;
+        max-height: none;
+        border-radius: 0;
+        border: none;
+    }
+    .zenless-post-left {
+        flex-basis: auto; /* Reset fixed width */
+        height: 250px; /* Fixed height for image area */
+    }
+    .zenless-post-right {
+        border-left: none;
+        border-top: 2px solid #222;
+        overflow-y: visible;
+    }
+    .zenless-close-btn {
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
+    }
+
+    /* MyPage Profile (Zenless Style) */
+    .mypage-container {
+        flex-direction: column;
+        height: auto;
+        max-height: none;
+        border-radius: 0;
+        border: none;
+    }
+    .mypage-left {
+        flex-basis: auto;
+        border-right: none;
+        border-bottom: 2px solid #222;
+        padding: 20px;
+    }
+    .mypage-profile-img-box {
+        width: 150px;
+        height: 190px;
+        margin-bottom: 20px;
+    }
+    .mypage-right {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .mypage-section {
+        padding-left: 0 !important;
+        border-left: none !important;
+    }
+    .mypage-top-header {
+        border-radius: 0;
+    }
+}
