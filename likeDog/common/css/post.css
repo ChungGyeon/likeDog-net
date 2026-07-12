@@ -47,6 +47,9 @@
 }
 
 /* Comment Section */
+.zenless-comment-item-wrapper {
+    /* This wrapper will handle indentation */
+}
 .zenless-comment-item {
     display: flex;
     gap: 15px;
@@ -73,14 +76,19 @@
     white-space: pre-wrap;
 }
 
-.comment-actions {
+.comment-footer {
     display: flex;
-    gap: 12px;
-    align-self: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
 }
 
-.comment-actions button {
+.comment-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.comment-actions button, .reply-btn {
     background: none;
     border: none;
     color: #888;
@@ -90,7 +98,7 @@
     font-weight: bold;
 }
 
-.comment-actions button:hover {
+.comment-actions button:hover, .reply-btn:hover {
     color: var(--accent-color);
 }
 
@@ -113,4 +121,29 @@
     margin-top: 5px;
     font-size: 0.95rem;
     font-family: inherit;
+}
+
+/* Reply Form */
+.reply-form-container {
+    padding-left: 55px; /* Align with comment text */
+    margin-bottom: 15px;
+}
+.reply-form textarea {
+    width: 100%;
+    height: 70px;
+    padding: 10px;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.reply-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.reply-form-actions button {
+    padding: 5px 15px;
+    font-size: 0.9rem;
 }
