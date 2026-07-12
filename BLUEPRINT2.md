@@ -84,8 +84,9 @@ likeDog
 
 
 #Todo
-1. user/posts/post.html에서 게시글 수정,삭제 버튼 디자인 꾸미기
-2. ./post.html에서 자신이 작성한 댓글 수정, 삭제 기능 필요
+1. user/posts/post.html에서 게시글 수정,삭제 버튼 디자인 꾸미기 [x]
+2. ./post.html에서 자신이 작성한 댓글 수정, 삭제 기능 필요 [x]
+3. ./post.html에서 댓글의 답글을 작성하는 기능을 추가, 이 답글또한 수정,삭제가 가능해야 함
 3. user/mypage/profile.html에서 정보수정 버튼을 닉네임 변경으로 변경
 4. ./profile.html에서 알림설정 버튼을 비밀번호 변경 버튼으로 변경 및 기능 구현
 5. ./profile.html에서 계정설정 버튼을 삭제

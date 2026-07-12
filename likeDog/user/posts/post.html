@@ -123,10 +123,25 @@
             list.innerHTML = postComments.map((c, index) => {
                 const commentAuthor = users.find(u => u.username === c.author);
                 const commentAuthorImgStyle = commentAuthor && commentAuthor.profileImage ? `style="background-image: url('${commentAuthor.profileImage}')"` : '';
+
+                const isCommentAuthor = currentUser && currentUser.username === c.author;
+                const commentActions = isCommentAuthor ? `
+                    <div class="comment-actions">
+                        <button onclick="handleEditComment(${c.id})">수정</button>
+                        <button onclick="handleDeleteComment(${c.id})">삭제</button>
+                    </div>
+                ` : '';
+
                 return `
-                    <div class="zenless-comment-item ${index === 0 ? 'highlight' : ''}">
+                    <div class="zenless-comment-item ${index === 0 ? 'highlight' : ''}" id="comment-${c.id}">
                         <div class="comment-avatar" ${commentAuthorImgStyle}></div>
-                        <div class="comment-info"><div class="author">${c.author}</div><div class="text">${c.content}</div></div>
+                        <div class="comment-content-wrapper">
+                            <div class="comment-info">
+                                <div class="author">${c.author}</div>
+                                <div class="text">${c.content}</div>
+                            </div>
+                            ${commentActions}
+                        </div>
                         <div class="comment-floor">${index + 1}F</div>
                     </div>`;
             }).join('') || '<p style="color: #666; padding: 20px; text-align: center;">아직 댓글이 없습니다.</p>';
@@ -152,6 +167,56 @@
                 location.href = '../boards/list.html';
             }
         };
+
+        window.handleDeleteComment = (commentId) => {
+            if (!confirm('정말 이 댓글을 삭제하시겠습니까?')) return;
+
+            let comments = JSON.parse(localStorage.getItem('comments')) || [];
+            comments = comments.filter(c => c.id !== commentId);
+            localStorage.setItem('comments', JSON.stringify(comments));
+            renderComments();
+        };
+
+        window.handleEditComment = (commentId) => {
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            const comment = comments.find(c => c.id === commentId);
+            if (!comment) return;
+
+            const wrapper = document.getElementById(`comment-${commentId}`).querySelector('.comment-content-wrapper');
+
+            wrapper.innerHTML = `
+                <div class="comment-info">
+                    <div class="author">${comment.author}</div>
+                    <textarea class="edit-comment-textarea">${comment.content}</textarea>
+                </div>
+                <div class="comment-actions">
+                    <button onclick="handleSaveComment(${commentId})">저장</button>
+                    <button onclick="renderComments()">취소</button>
+                </div>
+            `;
+            wrapper.querySelector('textarea').focus();
+        };
+
+        window.handleSaveComment = (commentId) => {
+            const wrapper = document.getElementById(`comment-${commentId}`).querySelector('.comment-content-wrapper');
+            const newContent = wrapper.querySelector('textarea').value;
+
+            if (!newContent.trim()) {
+                alert('댓글 내용이 비어있습니다.');
+                return;
+            }
+
+            let comments = JSON.parse(localStorage.getItem('comments')) || [];
+            const commentIndex = comments.findIndex(c => c.id === commentId);
+
+            if (commentIndex > -1) {
+                comments[commentIndex].content = newContent;
+                localStorage.setItem('comments', JSON.stringify(comments));
+            }
+
+            renderComments();
+        };
+
 
         const reportBtn = document.getElementById('report-post-btn');
         if (reportBtn) {

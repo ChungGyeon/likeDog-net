@@ -45,3 +45,72 @@
     background-color: var(--danger-color);
     color: #fff;
 }
+
+/* Comment Section */
+.zenless-comment-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px 5px;
+    border-bottom: 1px solid #222;
+    align-items: flex-start;
+}
+
+.comment-content-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-info .author {
+    font-weight: bold;
+    color: #eee;
+}
+
+.comment-info .text {
+    color: #ccc;
+    font-size: 0.95rem;
+    padding-top: 5px;
+    white-space: pre-wrap;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 12px;
+    align-self: flex-end;
+    margin-top: 10px;
+}
+
+.comment-actions button {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0;
+    font-weight: bold;
+}
+
+.comment-actions button:hover {
+    color: var(--accent-color);
+}
+
+.comment-floor {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: #666;
+    padding-top: 5px;
+}
+
+/* Editing state */
+.comment-info textarea {
+    width: 100%;
+    padding: 8px;
+    background: #111;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 4px;
+    min-height: 60px;
+    margin-top: 5px;
+    font-size: 0.95rem;
+    font-family: inherit;
+}
