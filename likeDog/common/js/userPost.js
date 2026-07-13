@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const posts = JSON.parse(localStorage.getItem('posts')) || [];
     const postIndex = posts.findIndex(p => p.id === postId);
     console.log("--- 데이터 확인 ---");
-    onsole.log("URL에서 가져온 게시글 ID:", postId);
+    console.log("URL에서 가져온 게시글 ID:", postId);
     console.log("localStorage에서 가져온 게시글 전체 데이터:", posts);
     if (posts.length > 0) {
         console.log("게시글 데이터의 첫 번째 ID 타입:", typeof posts[0].id);
