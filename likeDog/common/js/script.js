@@ -161,9 +161,6 @@ function renderHeader() {
 
 // Post Renderer
 function createPostCard(post) {
-    // ============== [디버깅 코드 추가] ==============
-    console.log('createPostCard가 받은 post 객체:', post);
-    // ============================================
     const boards = JSON.parse(localStorage.getItem('boards')) || [];
     const boardMap = boards.reduce((acc, board) => {
         acc[board.id] = board.name;

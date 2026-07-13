@@ -1,22 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const postId = parseInt(urlParams.get('id'));
+    const idParam = urlParams.get('id');
+
+    // 1. URL에서 파라미터가 날아갔는지 안전 검사
+    if (!idParam) {
+        console.error("URL 파라미터 누락:", window.location.href);
+        alert('잘못된 접근입니다. (게시글 ID 누락)');
+        location.href = '/likeDog/user/boards/list.html';
+        return;
+    }
+
     const posts = JSON.parse(localStorage.getItem('posts')) || [];
-    const postIndex = posts.findIndex(p => p.id === postId);
-    console.log("--- 데이터 확인 ---");
-    console.log("URL에서 가져온 게시글 ID:", postId);
-    console.log("localStorage에서 가져온 게시글 전체 데이터:", posts);
-    if (posts.length > 0) {
-        console.log("게시글 데이터의 첫 번째 ID 타입:", typeof posts[0].id);
-        console.log("URL에서 가져온 ID 타입:", typeof postId);
-        }
-    console.log("--------------------");
+
+    // 2. 타입 불일치 방지: 둘 다 '문자열'로 강제 변환하여 비교
+    const postIndex = posts.findIndex(p => String(p.id) === String(idParam));
+
     if (postIndex === -1) {
+        console.error("LocalStorage에서 다음 ID를 찾을 수 없음:", idParam);
+        console.log("현재 저장된 게시글들:", posts); // 원인 파악을 위한 로그
         alert('존재하지 않는 게시글입니다.');
         location.href = '/likeDog/user/boards/list.html';
         return;
     }
 
+    const postId = parseInt(idParam); // 아래 로직들(댓글 등)을 위해 숫자형으로 남겨둠
     const post = posts[postIndex];
     const currentUser = Auth.getCurrentUser();
 
