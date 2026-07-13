@@ -1,7 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <meta http-equiv="refresh" content="0; url=/likeDog/user/home/index.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>likeDog-Net | Home</title>
+    <link rel="stylesheet" href="likeDog/common/css/style.css">
+    <style>
+        /* Styles for the new home page layout */
+        .board-section {
+            margin-bottom: 50px;
+        }
+        .board-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .board-section-header h2 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+        .board-section-header a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .board-section-header a:hover {
+            color: var(--accent-color);
+        }
+    </style>
 </head>
-<body></body>
+<body>
+<header></header>
+
+<main class="container" id="home-content-container">
+    <!-- Board sections will be dynamically rendered here by JavaScript -->
+</main>
+
+<script src="likeDog/common/js/script.js"></script>
+</body>
 </html>
