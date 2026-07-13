@@ -1,6 +1,3 @@
-console.log('현재 전체 URL:', location.href);
-console.log('쿼리스트링 부분:', location.search);
-
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = parseInt(urlParams.get('id'));
