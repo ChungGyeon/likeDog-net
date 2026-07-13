@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isAuthor || isAdmin) {
         document.getElementById('post-admin-actions').innerHTML = `
-                <a href="edit.html?id=${post.id}" class="btn btn-edit">수정</a>
+                <a href="/likeDog/user/posts/edit.html?id=${post.id}" class="btn btn-edit">수정</a>
                 <button onclick="handleDelete()" class="btn btn-delete">삭제</button>
             `;
     }
