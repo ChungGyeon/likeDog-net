@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!Auth.isAdmin()) {
         alert('관리자 권한이 없습니다.');
-        location.href = '../../user/home/index.html';
+        location.href = '/likeDog/user/home/index.html';
         return;
     }
 

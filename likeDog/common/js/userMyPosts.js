@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentUser = Auth.getCurrentUser();
     if (!currentUser) {
         alert('로그인이 필요합니다.');
-        location.href = '../auth/login.html';
+        location.href = '/likeDog/user/auth/login.html';
         return;
     }
 

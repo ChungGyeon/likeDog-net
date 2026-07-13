@@ -301,10 +301,10 @@ function renderBoardPage() {
     writeBtn.addEventListener('click', () => {
         if (!Auth.isLoggedIn()) {
             alert('로그인이 필요합니다.');
-            location.href = '../auth/login.html';
+            location.href = '/likeDog/user/auth/login.html';
         } else {
             // Pass boardId to edit page so it can be pre-selected
-            const url = boardId ? `../posts/edit.html?boardId=${boardId}` : '../posts/edit.html';
+            const url = boardId ? `/likeDog/user/posts/edit.html?boardId=${boardId}` : '/likeDog/user/posts/edit.html';
             location.href = url;
         }
     });

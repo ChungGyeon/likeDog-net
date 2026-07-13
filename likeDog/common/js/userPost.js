@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (postIndex === -1) {
         alert('존재하지 않는 게시글입니다.');
-        location.href = '../boards/list.html';
+        location.href = '/likeDog/user/boards/list.html';
         return;
     }
 
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newPosts = posts.filter(p => p.id !== postId);
             localStorage.setItem('posts', JSON.stringify(newPosts));
             alert('삭제되었습니다.');
-            location.href = '../boards/list.html';
+            location.href = '/likeDog/user/boards/list.html';
         }
     };
 

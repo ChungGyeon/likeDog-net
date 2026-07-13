@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     if (!Auth.isLoggedIn()) {
         alert('로그인이 필요합니다.');
-        location.href = '../auth/login.html';
+        location.href = '/likeDog/user/auth/login.html';
         return;
     }
 
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const postsList = document.getElementById('my-posts-list');
 
     postsList.innerHTML = myPosts.map(p => `
-                <div class="mypage-list-item" onclick="location.href='../posts/post.html?id=${p.id}'" style="cursor: pointer;">
+                <div class="mypage-list-item" onclick="location.href='/likeDog/user/posts/post.html?id=${p.id}'" style="cursor: pointer;">
                     <span class="title">${p.title}</span>
                     <div class="meta">${p.date} | 조회 ${p.views}</div>
                 </div>
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsList.innerHTML = myComments.map(c => {
         const targetPost = posts.find(p => p.id === c.postId);
         return `
-                    <div class="mypage-list-item" onclick="location.href='../posts/post.html?id=${c.postId}'" style="cursor: pointer;">
+                    <div class="mypage-list-item" onclick="location.href='/likeDog/user/posts/post.html?id=${c.postId}'" style="cursor: pointer;">
                         <span class="meta" style="color: #888;">[${targetPost ? targetPost.title : '삭제된 게시글'}]</span>
                         <span class="title" style="font-size: 0.9rem; margin-top: 5px;">${c.content}</span>
                         <div class="meta">${c.date}</div>

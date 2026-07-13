@@ -44,7 +44,7 @@ const UserPostLogic = {
 
             if (!post) {
                 alert('게시글을 찾을 수 없습니다.');
-                location.href = '../boards/list.html';
+                location.href = '/likeDog/user/boards/list.html';
                 return;
             }
 
@@ -52,7 +52,7 @@ const UserPostLogic = {
             const currentUser = Auth.getCurrentUser();
             if (!Auth.isAdmin() && (!currentUser || currentUser.username !== post.author)) {
                 alert('수정 권한이 없습니다.');
-                location.href = '../boards/list.html';
+                location.href = '/likeDog/user/boards/list.html';
                 return;
             }
 
@@ -141,7 +141,7 @@ const UserPostLogic = {
         }
 
         localStorage.setItem('posts', JSON.stringify(posts));
-        location.href = postId ? `post.html?id=${postId}` : `../boards/list.html?boardId=${boardId}`;
+        location.href = postId ? `post.html?id=${postId}` : `/likeDog/user/boards/list.html?boardId=${boardId}`;
     }
 };
 

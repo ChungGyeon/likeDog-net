@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
                     <tr>
                         <td style="color: #666; font-size: 0.8rem;">\${targetPost ? targetPost.title : '삭제된 게시글'}</td>
-                        <td onclick="location.href='../posts/post.html?id=\${c.postId}'" style="cursor:pointer;">\${c.content}</td>
+                        <td onclick="location.href='/likeDog/user/posts/post.html?id=\${c.postId}'" style="cursor:pointer;">\${c.content}</td>
                         <td>\${c.date}</td>
                         <td>
                             <button class="btn-sm btn-del" onclick="deleteComment(\${c.id})">삭제</button>
