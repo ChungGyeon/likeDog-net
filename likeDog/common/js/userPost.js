@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (postIndex === -1) {
         alert('존재하지 않는 게시글입니다.');
-        location.href = 'likeDog/user/boards/list.html';
+        location.href = '/likeDog/user/boards/list.html';
         return;
     }
 
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isAuthor || isAdmin) {
         document.getElementById('post-admin-actions').innerHTML = `
-                <a href="likeDog/user/posts/edit.html?id=${post.id}" class="btn btn-edit">수정</a>
+                <a href="/likeDog/user/posts/edit.html?id=${post.id}" class="btn btn-edit">수정</a>
                 <button onclick="handleDelete()" class="btn btn-delete">삭제</button>
             `;
     }
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newPosts = posts.filter(p => p.id !== postId);
             localStorage.setItem('posts', JSON.stringify(newPosts));
             alert('삭제되었습니다.');
-            location.href = 'likeDog/user/boards/list.html';
+            location.href = '/likeDog/user/boards/list.html';
         }
     };
 
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const reportBtn = document.getElementById('report-post-btn');
     if (reportBtn) {
         reportBtn.addEventListener('click', () => {
-            if (!Auth.isLoggedIn()) { alert('신고 기능은 로그인이 필요합니다.'); location.href = 'likeDog/user/auth/login.html'; return; }
+            if (!Auth.isLoggedIn()) { alert('신고 기능은 로그인이 필요합니다.'); location.href = '/likeDog/user/auth/login.html'; return; }
             const reason = prompt('이 게시글을 신고하는 사유를 입력해주세요.');
             if (reason === null) return;
             if (!reason.trim()) { alert('신고 사유를 입력해야 합니다.'); return; }

@@ -75,7 +75,7 @@ const Auth = {
     },
     logout: () => {
         localStorage.removeItem('currentUser');
-        window.location.href = 'likeDog/user/auth/login.html';
+        window.location.href = '/likeDog/user/auth/login.html';
     },
     getCurrentUser: () => {
         return JSON.parse(localStorage.getItem('currentUser'));
@@ -100,14 +100,14 @@ function renderHeader() {
 
     // Create board dropdown HTML
     const boardDropdownItems = boards.map(board => 
-        `<li><a href="likeDog/user/boards/list.html?boardId=${board.id}">${board.name}</a></li>`
+        `<li><a href="/likeDog/user/boards/list.html?boardId=${board.id}">${board.name}</a></li>`
     ).join('');
 
     const boardNavHtml = `
         <li class="nav-dropdown">
-            <a href="likeDog/user/boards/list.html" id="nav-board">게시판</a>
+            <a href="/likeDog/user/boards/list.html" id="nav-board">게시판</a>
             <ul class="dropdown-menu">
-                <li><a href="likeDog/user/boards/list.html">전체 게시판</a></li>
+                <li><a href="/likeDog/user/boards/list.html">전체 게시판</a></li>
                 ${boardDropdownItems}
             </ul>
         </li>
@@ -116,10 +116,10 @@ function renderHeader() {
     let navHtml = `
         <nav>
             <ul>
-                <li><a href="likeDog/user/home/index.html" id="nav-home">홈</a></li>
+                <li><a href="/index.html" id="nav-home">홈</a></li>
                 ${boardNavHtml}
-                <li><a href="likeDog/user/boards/list.html?boardId=2" id="nav-noti">공지사항</a></li>
-                ${isAdmin ? '<li><a href="likeDog/admin/dashboard/index.html" style="color: #eaff00;">관리자</a></li>' : ''}
+                <li><a href="/likeDog/user/boards/list.html?boardId=2" id="nav-noti">공지사항</a></li>
+                ${isAdmin ? '<li><a href="/likeDog/admin/dashboard/index.html" style="color: #eaff00;">관리자</a></li>' : ''}
             </ul>
         </nav>
     `;
@@ -133,21 +133,21 @@ function renderHeader() {
                     <div class="name">${user.name}</div>
                     <div class="level">Lv.${user.level}</div>
                 </div>
-                <a href="likeDog/user/mypage/profile.html"><div class="profile-img" ${profileImgStyle}></div></a>
+                <a href="/likeDog/user/mypage/profile.html"><div class="profile-img" ${profileImgStyle}></div></a>
                 <button onclick="Auth.logout()" class="btn-sm btn-secondary">로그아웃</button>
             </div>
         `;
     } else {
         userHtml = `
             <div class="user-status">
-                <a href="likeDog/user/auth/login.html" class="btn-sm btn-primary">로그인</a>
-                <a href="likeDog/user/auth/signup.html" class="btn-sm btn-secondary">회원가입</a>
+                <a href="/likeDog/user/auth/login.html" class="btn-sm btn-primary">로그인</a>
+                <a href="/likeDog/user/auth/signup.html" class="btn-sm btn-secondary">회원가입</a>
             </div>
         `;
     }
 
     header.innerHTML = `
-        <a href="likeDog/user/home/index.html" class="logo">likeDog-Net</a>
+        <a href="/index.html" class="logo">likeDog-Net</a>
         ${navHtml}
         ${userHtml}
     `;
@@ -173,7 +173,7 @@ function createPostCard(post) {
     const authorImgStyle = author && author.profileImage ? `style="background-image: url('${author.profileImage}')"` : '';
 
     return `
-        <div class="card" onclick="location.href='likeDog/user/posts/post.html?id=${post.id}'">
+        <div class="card" onclick="location.href='/likeDog/user/posts/post.html?id=${post.id}'">
             <div class="card-image-wrapper">
                 <img src="${post.image || 'https://via.placeholder.com/400x300'}" class="card-image" alt="post">
                 <div class="card-views">👁️ ${post.views}</div>
@@ -219,7 +219,7 @@ function renderHomePage() {
         <section class="board-section">
             <div class="board-section-header">
                 <h2>전체 게시판</h2>
-                <a href="likeDog/user/boards/list.html">더보기 &gt;</a>
+                <a href="/likeDog/user/boards/list.html">더보기 &gt;</a>
             </div>
             <div class="card-grid">
                 ${recentPostsHtml}
@@ -243,7 +243,7 @@ function renderHomePage() {
                 <section class="board-section">
                     <div class="board-section-header">
                         <h2>${board.name}</h2>
-                        <a href="likeDog/user/boards/list.html?boardId=${board.id}">더보기 &gt;</a>
+                        <a href="/likeDog/user/boards/list.html?boardId=${board.id}">더보기 &gt;</a>
                     </div>
                     <div class="card-grid">
                         ${postsHtml}
@@ -301,10 +301,10 @@ function renderBoardPage() {
     writeBtn.addEventListener('click', () => {
         if (!Auth.isLoggedIn()) {
             alert('로그인이 필요합니다.');
-            location.href = 'likeDog/user/auth/login.html';
+            location.href = '/likeDog/user/auth/login.html';
         } else {
             // Pass boardId to edit page so it can be pre-selected
-            const url = boardId ? `likeDog/user/posts/edit.html?boardId=${boardId}` : 'likeDog/user/posts/edit.html';
+            const url = boardId ? `/likeDog/user/posts/edit.html?boardId=${boardId}` : '/likeDog/user/posts/edit.html';
             location.href = url;
         }
     });
