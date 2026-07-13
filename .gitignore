@@ -7,4 +7,5 @@ dist
 .idea/workspace.xml
 .idea/shelf/
 .idea/tasks.xml
-
+.agents
+skills-lock.json
